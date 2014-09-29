@@ -1,3 +1,5 @@
+NOM = gouicem
+PRENOM = redha
 CC = gcc
 CFLAGS = -Wall
 SRC = src
@@ -61,8 +63,11 @@ $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) -I$(INC) -c -o $@ $<
 
 clean:
-	rm -rf $(BIN)/* $(OBJ)/* $(LIB)/* $(SRC)/*~ $(INC)/*~
+	rm -rf $(BIN) $(OBJ) $(LIB) $(SRC)/*~ $(INC)/*~
 
-.PHONY: all clean max_calcul nfork ex4 ex3 ex5 ex6 ex7
+pack: clean
+	cd .. && tar czfv $(NOM)-$(PRENOM).mi014.1.tgz TME1
+
+.PHONY: all clean max_calcul nfork ex4 ex3 ex5 ex6 ex7 pack
 
 
