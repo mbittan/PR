@@ -1,0 +1,151 @@
+
+<!-- saved from url=(0131)http://australe.upmc.fr/access/content/group/MI014_01/Supports%20de%20TME/TME1%20-%20Prise%20en%20main%2C%20Processus%20_%20Signaux -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><br>
+<h1 style="text-align: center;">TME1 - Prise en main, Processus, Signaux</h1>
+<br>
+<h2>Objectifs</h2>
+<ol>
+    <li>Faciliter la prise en main des outils de programmation /  compilation, et effectuer des rappels sur les notions basiques de  système qui seront utilisées tout au long de cette UE.</li>
+    <li>Faire prendre de bonnes habitudes vis-à-vis de la soumission des travaux.</li>
+</ol>
+<div style="text-align: justify;">&nbsp;</div>
+<h2>Format de soumission</h2>
+<div style="margin-left: 40px; text-align: justify;">Lorsque vous soumettez vos travaux, vous êtes priés de toujours respecter le protocole décrit ci-après.<br>
+Vous préparerez un répertoire de travail qui contiendra les éléments suivants :</div>
+<div style="text-align: justify; margin-left: 80px;">- répertoire <span style="font-family: Courier New;">bin</span> : répertoire vide servant de destination aux fichiers exécutables obtenus après l'édition des liens entre vos fichiers objets</div>
+<div style="text-align: justify; margin-left: 80px;">- répertoire <span style="font-family: Courier New;">include</span> : répertoire contenant l'ensemble de vos fichiers d'en-tête (headers *.h)</div>
+<div style="text-align: justify; margin-left: 80px;">- répertoire <span style="font-family: Courier New;">lib</span> : répertoire contenant l'ensemble de vos bibliothèques pré-compilées (*.a)</div>
+<div style="text-align: justify; margin-left: 80px;">- répertoire <span style="font-family: Courier New;">obj</span> : répertoire vide servant de destination aux fichiers objets (*.o) obtenus après compilation de vos fichiers sources</div>
+<div style="text-align: justify; margin-left: 80px;">- répertoire <span style="font-family: Courier New;">src</span> : répertoire contenant l'ensemble de vos codes sources</div>
+<div style="text-align: justify; margin-left: 80px;">- fichier <span style="font-family: Courier New;">makefile</span> : fichier contenant l'ensemble de vos directives de compilation</div>
+<div style="text-align: justify; margin-left: 80px;">- fichier <span style="font-family: Courier New;">README</span> : fichier d'explication servant de rapport pour le rendu de vos travaux</div>
+<br>
+<div style="margin-left: 40px; text-align: justify;">De tous les éléments dans le répertoire de travail, <b>le fichier README est le plus important</b>. Vous y consignez :</div>
+<div style="text-align: justify; margin-left: 80px;">- Les noms et prénoms de tous ceux qui ont participé à cette soumission</div>
+<div style="text-align: justify; margin-left: 80px;">- Le détail des fichiers que vous avez inclus dans les répertoires include, lib, et src (pour chaque exercice, les fichiers qui lui sont associés)</div>
+<div style="text-align: justify; margin-left: 80px;">- L'explication des directives de compilation fournies dans le(s) fichier(s) makefile</div>
+<div style="text-align: justify; margin-left: 80px;">- L'état d'avancement des travaux (ce qui fonctionne, ce qui est codé mais produit des erreurs à la compilation / à l'exécution, ce qui est incomplet, ...)<br>
+- Les réponses aux questions posées dans le sujet (eg. Exercice 2 dans le TME1)</div>
+<br>
+<div style="margin-left: 40px; text-align: justify;">Avant de soumettre votre répertoire de travail, vous devez l'archiver au format <span style="font-family: Courier New;">TAR</span> puis le compresser au format <span style="font-family: Courier New;">GZIP</span>. Le fichier obtenu devra être renommé selon le format :</div>
+<div style="margin-left: 80px; text-align: justify;"><span style="font-family: Courier New;">[nom-prenom].mi014.[no du TME].tgz</span></div>
+<div style="margin-left: 40px; text-align: justify;">C'est ce fichier que vous soumettez <b>avant la date délai : sauf indication contraire, au bout de 7 jours à partir de la séance de TME</b>.</div>
+<div style="margin-left: 40px; text-align: justify;">&nbsp;</div>
+<div style="text-align: justify;">&nbsp;</div>
+<h2>Exercices</h2>
+<div style="text-align: justify;">&nbsp;</div>
+<h3>&nbsp;</h3>
+<h3>Exercice 1 : Passage de paramètre, compilation , makefile</h3>
+<div style="text-align: justify; margin-left: 40px;">Nous voulons programmer la fonction <span style="font-family: Courier New,Courier,monospace;">max_func</span> qui reçoit comme paramètres un vecteur d’entiers et le nombre d’éléments de ce vecteur. La fonction renvoie la valeur maximum parmi ces éléments. A l'aide de cette fonction, nous voulons aussi coder le programme <span style="font-family: Courier New,Courier,monospace;">max_calcul</span> qui&nbsp; reçoit comme argument une suite d'entiers séparés par un espace et affiche l’élément de valeur maximale.</div>
+<div style="text-align: justify; margin-left: 80px;">exemple :<br>
+<i><code>$./max_calcul 4 8 12 7</code></i></div>
+<div style="text-align: justify; margin-left: 120px;"><i><code>Le maximum est : 12</code></i></div>
+<div style="text-align: justify; margin-left: 40px;">Donnez le code de la fonction <span style="font-family: Courier New,Courier,monospace;">max_func</span> dans un fichier <span style="font-family: Courier New,Courier,monospace;">max_func.c</span>, et le code du programme <span style="font-family: Courier New,Courier,monospace;">max_calcul</span> dans un fichier <span style="font-family: Courier New,Courier,monospace;">max_calcul.c</span>.&nbsp;</div>
+<div style="text-align: justify; margin-left: 40px;">Le prototype de la fonction <span style="font-family: Courier New,Courier,monospace;">max_func </span>doit être défini dans le fichier <span style="font-family: Courier New,Courier,monospace;">max_func.h</span>.&nbsp; <br>
+Donnez aussi le code du makefile afin de produire l’exécutable. <br>
+Le makefile doit résider sous le répertoire courant, tandis que les fichiers .c, .h et l'exécutable doivent respectivement résider dans les sous-répertoires <span style="font-family: Courier New,Courier,monospace;">src</span>, <span style="font-family: Courier New,Courier,monospace;">include</span> et <span style="font-family: Courier New,Courier,monospace;">bin</span>.</div>
+<br>
+<h3>Exercice 2 : N processus fils</h3>
+<div style="margin-left: 40px; text-align: justify;">Nous souhaitons programmer la fonction <span style="font-family: Courier New,Courier,monospace;">int nfork (int nb_fils)</span> qui permet de créer <span style="font-family: Courier New,Courier,monospace;">nb_fils</span> processus fils. La fonction renvoie :
+<ul>
+    <li>le nombre de processus fils créés, pour le processus père ;</li>
+    <li>0,&nbsp; pour les processus fils ;</li>
+    <li>-1 dans le cas où aucun fils n'a été créé.</li>
+</ul>
+<span style="font-weight: bold; font-style: italic;">Observation :</span> Si la création d’un processus fils échoue, la fonction n’essaie pas de créer les autres fils. Dans ce cas,&nbsp; la fonction renvoie le nombre de fils qu’elle a pu créer (ou –1, si aucun fils n'a été créé).<br>
+<br>
+Programmez la fonction <span style="font-family: Courier New,Courier,monospace;">int nfork (int nb_fils</span>)</div>
+<div style="margin-left: 40px;">
+<div style="text-align: justify;">En utilisant la fonction nfork, le programme ci-dessous crée une arborescence de processus. Nous considérons qu’aucune création de processus n'échoue.</div>
+</div>
+<div style="margin-left: 120px;"><span style="font-family: Courier New,Courier,monospace;">&nbsp;1: int main (int arg, char* argv []) {</span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">&nbsp;2:&nbsp;&nbsp;&nbsp; int p;</span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">&nbsp;3: &nbsp;&nbsp; int i=1; int N = 3;</span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">&nbsp;4:&nbsp; &nbsp; do {</span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">&nbsp;5:&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; p = nfork (i) ;</span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">&nbsp;6:&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (p != 0 )</span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">&nbsp;7:&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; printf ("%d \n",p); </span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">&nbsp;8:&nbsp;&nbsp;&nbsp; } while ((p ==0) &amp;&amp; (++i&lt;=N));</span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">&nbsp;9: &nbsp;&nbsp; printf ("FIN \n");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">10:&nbsp;&nbsp; return EXIT_SUCCESS;</span><br style="font-family: Courier New,Courier,monospace;">
+<span style="font-family: Courier New,Courier,monospace;">11: } </span></div>
+<div style="margin-left: 40px;"><span style="font-weight: bold; font-style: italic;"><br>
+Observation</span>: en C, la commande ++i&lt;N&nbsp; incrémente en <span style="font-weight: bold;">premier lieu</span> la variable i et <span style="font-weight: bold;">ensuite</span> compare sa valeur à N.<br>
+<br>
+Combien des processus sont-ils créés, processus principal inclus ? <br>
+Représentez l’arborescence de processus créés, en spécifiant les affichages de chaque processus.</div>
+<div style="margin-left: 40px;">&nbsp;</div>
+&nbsp; <br>
+<h3>Exercice 3 : Fonction exec</h3>
+<div style="margin-left: 40px;">Considérez le code du programme ci-dessous.<br>
+<br>
+<div style="margin-left: 40px; font-family: Courier New,Courier,monospace;">&nbsp; 1: int main(int argc, char **argv) {<br>
+&nbsp; 2: &nbsp;&nbsp;&nbsp; pid_t pid;<br>
+&nbsp; 3:&nbsp; &nbsp;&nbsp;&nbsp; int&nbsp; j=0; int i = 0;<br>
+&nbsp; 4:&nbsp; &nbsp;&nbsp;&nbsp; while (i &lt; 2) {<br>
+&nbsp; 5:&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; i ++;<br>
+&nbsp; 6:&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; if ((pid = fork ()) == -1) {<br>
+&nbsp; 7:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; perror ("fork");<br>
+&nbsp; 8:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; exit (1);<br>
+&nbsp; 9:&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;10:&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; else if (pid == 0) j=i;<br>
+&nbsp;11: &nbsp;&nbsp;&nbsp; }<br>
+&nbsp;12:&nbsp;&nbsp; &nbsp; if (j == 2) {<br>
+&nbsp;13:&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; sleep (2);<br>
+&nbsp;14:&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; printf ("sans fils \n");<br>
+&nbsp;15:&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;16:&nbsp;&nbsp;&nbsp;&nbsp; else {<br>
+&nbsp;17: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf ("%d fils \n », (i-j) );<br>
+&nbsp;18:&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;while (j &lt; i) {<br>
+&nbsp;19:&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; j++;<br>
+&nbsp;20:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; wait (NULL);<br>
+&nbsp;21: &nbsp;&nbsp;&nbsp; &nbsp; } <br>
+&nbsp;22:&nbsp; &nbsp;&nbsp; }<br>
+&nbsp;23: &nbsp; &nbsp; return EXIT_SUCCESS;<br>
+&nbsp;24: }&nbsp;&nbsp;</div>
+<br>
+Combien de processus sont-ils créés, processus principal inclus ? <br>
+Faites l’arborescence des processus en montrant les affichages de chaque processus.<br>
+<br>
+Au lieu d’appeler la <span style="font-weight: bold;">fonction</span> <span style="font-family: Courier New,Courier,monospace;">sleep</span> à la ligne 13, nous voulons appeler la <span style="font-weight: bold;">commande</span> <span style="font-family: Courier New,Courier,monospace;">sleep </span>qui se trouve dans le répertoire <span style="font-family: Courier New,Courier,monospace;">/bin/sleep</span>. <br>
+Remplacez la ligne 13 par l’appel de la commande <span style="font-family: Courier New,Courier,monospace;">sleep</span> en utilisant <span style="font-family: Courier New,Courier,monospace;">execl</span>.&nbsp; Même question en utilisant <span style="font-family: Courier New,Courier,monospace;">execv</span>. <br>
+Le nombre de processus créés change-t-il ? Et l’affichage ?</div>
+<br>
+<br>
+<h3>Exercice 4 : Chaîne de processus</h3>
+<div style="margin-left: 40px; text-align: justify;">Nous voulons faire un programme qui crée une chaîne de processus telle que le processus initial (celui du main) crée un processus qui à son tour en crée un second et ainsi de suite jusque à la création de N processus (en plus du processus initial). Au moment de sa création, le dernier processus de la chaîne affiche le <span style="font-family: Times New Roman,Times,serif;">pid</span> de tous les autres processus y compris celui du processus initial. Pour tous les autres processus : chacun attend la terminaison son fils, puis affiche son propre pid, celui de son père et celui de son fils avant de se terminer.<br>
+<br>
+En utilisant la fonction <code>fork</code>, donnez le code du programme décrit ci-dessus. <br>
+<br>
+Supposons que le dernier processus créé génère une valeur aléatoire entre&nbsp; 0 et 100.&nbsp;&nbsp; Pour générer cette valeur aléatoire utilisez :<br>
+<code>(int)(rand () /(((double) RAND_MAX +1) /100))</code><br>
+<br>
+Modifiez le programme pour que le processus initial affiche cette valeur aléatoire avant de se terminer.</div>
+<br>
+<h3>Exercice 5 : Synchronisation de processus</h3>
+<div style="margin-left: 40px; text-align: justify;">Nous avons un processus P1 qui crée un processus P2 (fils de P1) qui à son tour crée un processus P3 (fils de P2 et petit-fils de P1).&nbsp; Lorsque le processus P3 est créé, il envoie un signal à son grand-père, le processus P1, pour lui signaler sa création, puis se termine juste après. Quand son père, le processus P2, prend connaissance de la terminaison de P3, il envoie un signal à P1, son père, pour signaler la mort de son fils. Après P2 se termine lui aussi. <br>
+Le processus P1 doit traiter les événements&nbsp; dans l’ordre décrit ci-dessus. Autrement dit, il doit premièrement traiter la délivrance du signal de P3 en affichant le message « Processus P3 créé », ensuite la délivrance du signal de P2 en affichant&nbsp; « Processus P3 terminé » et à la fin afficher « Processus P2 terminé » lorsqu’il prend connaissance de la mort de son fils.<br>
+<br>
+Programmez une telle synchronisation.</div>
+<br>
+<h3>Exercice 6 : Fonction <span style="font-family: Courier New,Courier,monospace;">kill</span></h3>
+<div style="margin-left: 40px; text-align: justify;">Reprenez la chaîne de processus de l’exercice 4 (avec le dernier descendant ayant la connaissance du pid de tous les processus de la chaîne.)<br>
+Supposons que vous ne pouvez pas utiliser la fonction <code>wait</code> ni le signal <code>SIGCHLD</code> dans votre programme. Cependant, nous voulons toujours assurer qu’<span style="font-weight: bold;">aucun</span> processus ne puisse se terminer avant que tous les autres aient été créés. <br>
+<br>
+Modifiez le programme en conséquence en utilisant des signaux (mais pas <code>SIGCHILD</code>).<br>
+<i><br>
+N.B: vous n'avez pas à traîter la génération et la récupération de la valeur aléatoire dans cet exercice.</i></div>
+&nbsp; <br>
+<h3>Exercice 7 : Signaux <span style="font-family: Courier New,Courier,monospace;">SIGSTOP</span>, <span style="font-family: Courier New,Courier,monospace;">SIGCONT</span>, <span style="font-family: Courier New,Courier,monospace;">SIGCHLD</span></h3>
+<div style="margin-left: 40px; text-align: justify;">Reprenez l’exercice 4 où une chaîne de N processus est créée. <br>
+Nous voulons maintenant changer le programme de la manière suivante.&nbsp; L’exécution de tous les processus, à l'exception du processus initial, doit être stoppée avec un signal <code>SIGSTOP</code>. Lorsque tous les processus sont effectivement stoppés, le processus initial affiche&nbsp; « Tous les descendants stoppés ».&nbsp; <br>
+L’exécution de ces processus doit alors reprendre pour que ceux-ci se terminent. Lorsque tous se sont terminés, le programme initial affiche « Fin du programme ».&nbsp; <br>
+<br>
+Observations :<br>
+-&nbsp;&nbsp;&nbsp; Vous ne pouvez pas utiliser les fonctions de la famille <span style="font-family: Courier New,Courier,monospace;">wait</span> (e.g. <span style="font-family: Courier New,Courier,monospace;">wait</span>, <span style="font-family: Courier New,Courier,monospace;">waitpid</span>, <span style="font-family: Courier New,Courier,monospace;">wait3</span>, etc)&nbsp; pour attendre la fin d’un processus ; trouvez une autre méthode.<br>
+-&nbsp;&nbsp;&nbsp; Utilisez toujours la fonction fork pour créer des processus.<br>
+<br>
+Donnez le code du programme décrit ci-dessus.</div>
+<br>
+<br>
+<br></body></html>
