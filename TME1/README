@@ -7,10 +7,10 @@
 === Fichiers inclus ===
     
     [Ex. 1] include/max_func.h
-    	    Header pour le fichier include/max_func.c
+    	    Header pour le fichier src/max_func.c
       
     [Ex. 1] src/max_func.c
-	    Contient la definition de la fonction qui calcule le maximum d'un
+	    Contient la définition de la fonction qui calcule le maximum d'un
 	    tableau d'entiers.
 
     [Ex. 1] src/max_calcul.c
@@ -18,54 +18,54 @@
 	    le maximum.
     
     [Ex. 2] src/nfork.c
-    	    Contient le code de la fonction nfork qui crée n fils (ainsi que le
+    	    Contient le code de la fonction nfork qui créé n fils (ainsi que le
 	    code du main de l'énoncé).
 
     [Ex. 3] src/ex3.c
-            Contient le code de l'enoncé, modifié avec execl/execv a la place 
+            Contient le code de l'énoncé, modifié avec execl/execv à la place 
 	    de sleep.
 
     [Ex. 4] src/ex4.c
-            Programme qui crée une chaine de N processus.
+            Programme qui créé une chaine de N processus.
 
     [Ex. 5] src/ex5.c
-    	    Programme qui réalise la synchronisation decrite dans l'exercice 5.
+    	    Programme qui réalise la synchronisation décrite dans l'exercice 5.
 
     [Ex. 6] src/ex6.c
-	    Programme qui crée une chaine de processus dans laquelle aucun
+	    Programme qui créé une chaine de processus dans laquelle aucun
 	    processus ne peut se terminer avant que tout les processus ait été
 	    créés.
 
     [Ex. 7] src/ex7.c
-    	    Programme qui effectue la synchronisation decrite dans l'énoncé.
+    	    Programme qui effectue la synchronisation décrite dans l'énoncé.
 
     	    
 === Directives du Makefile ===
     
     max_calcul
-	Crée l'executable max_calcul qui calcule le max parmis les entiers qui
+	Crée l'exécutable max_calcul qui calcule le max parmi les entiers qui
 	lui sont passés en argument.
     
     nfork
-	Crée l'executable nfork.
+	Créé l'exécutable nfork.
 
     ex3
-	Crée l'executable ex3.
+	Créé l'exécutable ex3.
 
     ex4
-	Crée l'executable ex4.   
+	Créé l'exécutable ex4.   
 
     ex5
-	Crée l'executable ex5.
+	Créé l'exécutable ex5.
 
     ex6
-	Crée l'executable ex6.
+	Créé l'exécutable ex6.
 
     ex7
-	Crée l'executable ex7.
+	Créé l'exécutable ex7.
 
     pack
-	Crée l'archive de soumission.
+	Créé l'archive de soumission.
 
 === Etat d'avancement ===
 
@@ -124,5 +124,5 @@
              Affichage: "sans fils"
         
 Qaund on remplace sleep par execl (ou execv), les feuilles (Pfils1 et Fils2)
-n'affiche rien parce que le code à été remplacé par le code de sleep. Le nombre
+n'affiche rien parce que le code a été remplacé par le code de sleep. Le nombre
 de processus reste identique.
