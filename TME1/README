@@ -28,6 +28,18 @@
     [Ex. 4] src/ex4.c
             Programme qui crée une chaine de N processus.
 
+    [Ex. 5] src/ex5.c
+    	    Programme qui réalise la synchronisation decrite dans l'exercice 5.
+
+    [Ex. 6] src/ex6.c
+	    Programme qui crée une chaine de processus dans laquelle aucun
+	    processus ne peut se terminer avant que tout les processus ait été
+	    créés.
+
+    [Ex. 7] src/ex7.c
+    	    Programme qui effectue la synchronisation decrite dans l'énoncé.
+
+    	    
 === Directives du Makefile ===
     
     max_calcul
@@ -41,7 +53,19 @@
 	Crée l'executable ex3.
 
     ex4
-	Crée l'executable ex4.
+	Crée l'executable ex4.   
+
+    ex5
+	Crée l'executable ex5.
+
+    ex6
+	Crée l'executable ex6.
+
+    ex7
+	Crée l'executable ex7.
+
+    pack
+	Crée l'archive de soumission.
 
 === Etat d'avancement ===
 
@@ -49,7 +73,9 @@
     Exercice 2 : OK
     Exercice 3 : OK
     Exercice 4 : OK
-    Exercice 5 : OK
+    Exercice 5 : OK    
+    Exercice 6 : OK
+    Exercice 7 : OK
 
 === Réponses ===
 

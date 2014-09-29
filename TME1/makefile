@@ -1,5 +1,5 @@
-NOM = gouicem
-PRENOM = redha
+NOM = bittan
+PRENOM = maxime
 CC = gcc
 CFLAGS = -Wall
 SRC = src
