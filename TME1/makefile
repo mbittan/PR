@@ -6,7 +6,7 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: directories max_calcul nfork ex3 ex4 ex5
+all: directories max_calcul nfork ex3 ex4 ex5 ex6 ex7
 
 directories: $(OBJ) $(BIN) $(LIB)
 
@@ -29,6 +29,10 @@ ex4: $(BIN)/ex4
 
 ex5: $(BIN)/ex5
 
+ex6: $(BIN)/ex6
+
+ex7: $(BIN)/ex7
+
 $(BIN)/nfork : $(OBJ)/nfork.o
 	$(CC) $(CFLAGS) -o $@ $^
 
@@ -44,6 +48,12 @@ $(BIN)/ex4: $(OBJ)/ex4.o
 $(BIN)/ex5 : $(OBJ)/ex5.o
 	$(CC) $(CFLAGS) -o $@ $^
 
+$(BIN)/ex6 : $(OBJ)/ex6.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BIN)/ex7 : $(OBJ)/ex7.o
+	$(CC) $(CFLAGS) -o $@ $^
+
 $(OBJ)/max_func.o: $(SRC)/max_func.c $(INC)/max_func.h
 	$(CC) $(CFLAGS) -I$(INC) -c -o $@ $<
 
@@ -53,6 +63,6 @@ $(OBJ)/%.o: $(SRC)/%.c
 clean:
 	rm -rf $(BIN)/* $(OBJ)/* $(LIB)/* $(SRC)/*~ $(INC)/*~
 
-.PHONY: all clean max_calcul nfork ex4 ex3
+.PHONY: all clean max_calcul nfork ex4 ex3 ex5 ex6 ex7
 
 
