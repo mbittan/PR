@@ -1,0 +1,128 @@
+=== Participatns : 3 ===
+    
+    Maxime Bittan - 3100294
+    Redha Gouicem - 3100161
+    Igor Macanovic- 3261753
+
+=== Fichiers inclus ===
+    
+    [Ex. 1] include/max_func.h
+    	    Header pour le fichier src/max_func.c
+      
+    [Ex. 1] src/max_func.c
+	    Contient la définition de la fonction qui calcule le maximum d'un
+	    tableau d'entiers.
+
+    [Ex. 1] src/max_calcul.c
+    	    Contient un main qui prend comme argument des entiers et qui affiche
+	    le maximum.
+    
+    [Ex. 2] src/nfork.c
+    	    Contient le code de la fonction nfork qui créé n fils (ainsi que le
+	    code du main de l'énoncé).
+
+    [Ex. 3] src/ex3.c
+            Contient le code de l'énoncé, modifié avec execl/execv à la place 
+	    de sleep.
+
+    [Ex. 4] src/ex4.c
+            Programme qui créé une chaine de N processus.
+
+    [Ex. 5] src/ex5.c
+    	    Programme qui réalise la synchronisation décrite dans l'exercice 5.
+
+    [Ex. 6] src/ex6.c
+	    Programme qui créé une chaine de processus dans laquelle aucun
+	    processus ne peut se terminer avant que tout les processus ait été
+	    créés.
+
+    [Ex. 7] src/ex7.c
+    	    Programme qui effectue la synchronisation décrite dans l'énoncé.
+
+    	    
+=== Directives du Makefile ===
+    
+    max_calcul
+	Crée l'exécutable max_calcul qui calcule le max parmi les entiers qui
+	lui sont passés en argument.
+    
+    nfork
+	Créé l'exécutable nfork.
+
+    ex3
+	Créé l'exécutable ex3.
+
+    ex4
+	Créé l'exécutable ex4.   
+
+    ex5
+	Créé l'exécutable ex5.
+
+    ex6
+	Créé l'exécutable ex6.
+
+    ex7
+	Créé l'exécutable ex7.
+
+    pack
+	Créé l'archive de soumission.
+
+=== Etat d'avancement ===
+
+    Exercice 1 : OK
+    Exercice 2 : OK
+    Exercice 3 : OK
+    Exercice 4 : OK
+    Exercice 5 : OK    
+    Exercice 6 : OK
+    Exercice 7 : OK
+
+=== Réponses ===
+
+    [Ex. 2]
+    	 Il y a 10 processus créés, processus principal inclus.
+ 
+		      Proc. Principal
+ 		    Affichage: "1 \nFin"
+                             |
+                             |
+        		   Fils 1
+		    Affichage: "2 \nFin"
+                             |
+                       ______|__________
+                      |                 |
+                      |                 |
+                      |               Pfils2
+                      |        Affichage: "3 \nFin"
+                    Pfils1              |_______________
+       	    Affichage: "3 \nFin"                        |
+                      |                        _________|_________
+                      |                       |         |         |      
+             _________|_________           APfils4      |       APfils6
+            |         |         |     Affichage:"Fin"   |  Affichage: "Fin"
+            |         |      APfils3                    |
+         APfils1      |  Affichage: "Fin"            APfils5
+    Affichage : "Fin" |                           Affichage:"Fin" 
+          	      |
+                   APfils2
+              Affichage: "Fin"
+
+    [Ex. 3]
+    	 Il y a 4 processus créés avec le processus principal.
+
+        		  Proc. Principal
+		        Affichage: "2 fils"
+                                 |
+                       __________|__________
+                      |                     |
+                      |                     |
+                    Fils1                  Fils2
+             Affichage: "1 fils"     Affichage: "sans fils"
+                      |
+                      |
+                    PFils1
+             Affichage: "sans fils"
+        
+Qaund on remplace sleep par execl (ou execv), les feuilles (Pfils1 et Fils2)
+n'affiche rien parce que le code a été remplacé par le code de sleep. Le nombre
+de processus reste identique.
