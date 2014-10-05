@@ -7,33 +7,33 @@
 === Fichiers inclus ===
     
     [Ex. 1] src/ex1.c
-    	    Programme qui cree N threads. Chaque thread affiche son numero 
+    	    Programme qui créé N threads. Chaque thread affiche son numéro 
 	    d'ordre ainsi que son identifiant, et se termine en renvoyant son 
-	    numero d'ordre  multiplie par deux. La thread principale attends la
-	    terminaison de chaque thread et affiche leur valeur de retour.
+	    numéro d'ordre  multiplié par deux. Le thread principal attends la
+	    terminaison de chaque thread et affiche leurs valeur de retour.
     
     [Ex. 2] src/ex2.c
-	    Programme qui cree N threads qui generent chacun une valeur 
-	    tiree aleatoirement et l'ajoutent dans une variable globale.
-	    La thread principale attends la terminaison de tout les thread avant
-	    d'afficher la somme des valeurs generes. 
+	    Programme qui créé N threads qui génèrent chacun une valeur 
+	    tirée aléatoirement et l'ajoute dans une variable globale.
+	    Le thread principal attends la terminaison de tout les threads 
+	    avant d'afficher la somme des valeurs générées. 
 
     [Ex. 3] src/ex3.c
-    	    Meme principe que le programme precendent, sauf que l'affichage de
-	    la somme se fait par une thread qui attends que tout les threads
-	    aient ajoute leur valeur dans la variable globale.
+    	    Même principe que le programme précédent, sauf que l'affichage de
+	    la somme se fait par un thread qui attend que tout les threads
+	    aient ajouté leur valeur dans la variable globale.
 
     [Ex. 4] src/ex4-1.c
-    	    Meme programme que precedemment, sauf que les threads sont
-	    detachees apres leur creation. 
+    	    Même programme que précédemment, sauf que les threads sont
+	    détachés après leur création. 
             
     [Ex. 4] src/ex4-2.c
-   	    Meme programme que precedemment, sauf que les threads sont
-	    detachees a leur creation. 
+   	    Même programme que précédemment, sauf que les threads sont
+	    détachés à leur création. 
             
 
     [Ex. 5] src/ex5.c
-    	    Programme qui permet a N threads de se synchroniser sur une barriere
+    	    Programme qui permet à N threads de se synchroniser sur une barrière.
 
     	    
 === Directives du Makefile ===
