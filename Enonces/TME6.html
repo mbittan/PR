@@ -1,0 +1,112 @@
+<br />
+<h1 style="text-align: center;">TME 6 - Gestion de Fichiers</h1>
+<br />
+<h2>&nbsp;</h2>
+<h2>Objectifs</h2>
+<ol>
+    <li>Travailler sur les m&eacute;ta-donn&eacute;es associ&eacute;es aux fichiers.</li>
+    <li>Mettre en &oelig;uvre les m&eacute;canismes d'entr&eacute;e/sortie.</li>
+</ol>
+<div style="text-align: justify;">
+<div style="margin-left: 40px;">&nbsp;</div>
+<div style="text-align: justify;">&nbsp;</div>
+</div>
+<h2>Exercices</h2>
+<div style="text-align: justify;">&nbsp;</div>
+<h3>Exercice 1 : Analyse d'ex&eacute;cution</h3>
+<div style="margin-left: 40px; text-align: justify;">Compilez puis ex&eacute;cutez le <a href="http://australe.upmc.fr/access/content/group/MI014_01/Code%20Source/tme6exo1.c">programme suivant</a> :<br />
+<br />
+<code>int main (void) { <br />
+&nbsp;&nbsp;&nbsp; int fd1, fd2, fd3;<br />
+&nbsp;&nbsp;&nbsp; if ((fd1 = open (&quot;./fich1&quot;, O_RDWR| O_CREAT | O_TRUNC, 0600)) == -1)<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return EXIT_FAILURE;<br />
+&nbsp;&nbsp;&nbsp; if (write (fd1,&quot;abcde&quot;, strlen (&quot;abcde&quot;)) == -1) <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return EXIT_FAILURE;<br />
+&nbsp;&nbsp;&nbsp; if (fork () == 0) { <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if ((fd2 = open (&quot;./fich1&quot;, O_RDWR)) == -1)<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return EXIT_FAILURE; <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (write (fd1,&quot;123&quot;, strlen (&quot;123&quot;)) == -1)<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return EXIT_FAILURE; <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (write (fd2,&quot;45&quot;, strlen (&quot;45&quot;)) == -1)<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return EXIT_FAILURE;<br />
+<meta http-equiv="content-type" content="text/html; charset=utf-8">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;close(fd2);&nbsp;<br />
+&nbsp;&nbsp; &nbsp;} else {<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; fd3 = dup(fd1); <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (lseek (fd3,0,SEEK_SET) == -1)<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return EXIT_FAILURE; <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (write (fd3,&quot;fg&quot;, strlen (&quot;fg&quot;)) == -1)<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return EXIT_FAILURE; <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (write (fd1,&quot;hi&quot;, strlen (&quot;hi&quot;)) == -1)<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return EXIT_FAILURE; <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; wait (NULL);<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; close (fd1); <br />
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;close(fd3); <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return EXIT_SUCCESS;<br />
+&nbsp;&nbsp;&nbsp; }<br />
+} </meta>
+</code><br />
+<br />
+Question : quels sont les contenus possibles du fichier <code>fich1</code> ?<br />
+<br />
+En utilisant des signaux, modifiez le programme pour que la taille du fichier soit toujours &eacute;gale &agrave; 8.<br />
+&nbsp;</div>
+<h3>Exercice 2 : Recopie de fichier par lectures/&eacute;critures</h3>
+<div style="margin-left: 40px; text-align: justify;">R&eacute;digez un programme <code>mycp</code> qui prend en param&egrave;tres deux noms de fichier :</div>
+<div style="margin-left: 80px; text-align: justify;"><code>$ mycp </code><i><code>&lt;fic1&gt; &lt;fic2&gt;</code></i></div>
+<div style="margin-left: 40px; text-align: justify;">Ce programme recopie int&eacute;gralement le contenu du fichier <code>fic1</code> dans le fichier <code>fic2</code>.<br />
+Il y a 3 conditions pour que ce programme fonctionne sans retourner d'erreur :</div>
+<div style="margin-left: 80px; text-align: justify;">1. le fichier <code>fic1</code> doit exister,<br />
+2. le fichier <code>fic2</code> ne doit pas exister,<br />
+3. et <code>fic1</code> est un fichier r&eacute;gulier.</div>
+&nbsp; <br />
+<h3>Exercice 3 : Recopie de fichier par mapping</h3>
+<div style="margin-left: 40px; text-align: justify;">Reprenez l'exercice pr&eacute;c&eacute;dent, mais avec des r&egrave;gles contraignantes :</div>
+<div style="margin-left: 80px; text-align: justify;">&bull; toute op&eacute;ration de lecture est interdite,<br />
+&bull; <b>une seule </b>&eacute;criture est autoris&eacute;e,<br />
+&bull; les fonctions <code>fstat</code> et <code>mmap</code> doivent figurer dans la solution.<br />
+&nbsp;&nbsp;</div>
+<h3>Exercice 4 : Remont&eacute;e de valeurs par &eacute;change dans un fichier<a name="remontee"></a></h3>
+<div style="margin-left: 40px; text-align: justify;">Reprenez l'<a href="http://australe.upmc.fr/access/content/group/MI014_01/Supports%20de%20TME/TME%204%20-%20IPC%20System%20V#remontee">exercice 2 du TME 4</a>   pour que les valeurs al&eacute;atoires transmises par les fils ne passent  plus  par un segment de m&eacute;moire partag&eacute;e, mais soient &eacute;crites dans un  ficher  lu par le p&egrave;re.</div>
+<div style="margin-left: 40px;">&nbsp;</div>
+<h3>Exercice 5 : Fonctions POSIX vs. fonctions C</h3>
+<div style="margin-left: 40px;">
+<div style="text-align: justify;">&Eacute;crivez deux programmes qui lisent  caract&egrave;re par caract&egrave;re un fichier pass&eacute; en param&egrave;tre, et qui affichent  chaque caract&egrave;re d&egrave;s qu'il est lu. Ces programmes seront compos&eacute;s de 3  processus qui partagent le m&ecirc;me descripteur et qui agissent &agrave; l'identique (<b><i>l'identit&eacute; de chaque processus est  affich&eacute;e avec le caract&egrave;re lu</i></b>).<br />
+<br />
+Le premier programme sera &eacute;crit avec les fonctions du standard POSIX (<code>open</code>, <code>read</code>)<br />
+Le second programme sera &eacute;crit avec les fonctions de la biblioth&egrave;que C (<code>fopen</code>, <code>fgetc</code>)<br />
+<br />
+Question : quelle diff&eacute;rence observez-vous ? <br />
+Expliquez cette diff&eacute;rence, et testez votre explication &agrave; l'aide de la fonction <code><a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/setvbuf.html">setvbuf</a></code>.<br />
+&nbsp;</div>
+</div>
+<h3>Exercice 6 : Fonction <code>grep</code> &eacute;tendue</h3>
+<div style="margin-left: 40px; text-align: justify;">L'<a href="http://australe.upmc.fr/access/content/group/MI014_01/Code%20Source/liste-rep.c">exemple de code suivant</a> vous montre comment lister le contenu d'un r&eacute;pertoire.<br />
+<br />
+En utilisant cet exemple, r&eacute;digez un programme <code>extended-grep</code> qui cherche dans un r&eacute;pertoire les fichiers contenant une cha&icirc;ne de caract&egrave;res donn&eacute;e.<br />
+<br />
+Le programme sera appel&eacute; de la mani&egrave;re suivante :</div>
+<div style="margin-left: 80px; text-align: justify;"><code>$ extended-grep </code><i><code>&lt;expr&gt; &lt;chemin&gt;</code></i></div>
+<div style="margin-left: 40px; text-align: justify;">avec&nbsp;&nbsp;&nbsp;&nbsp; <i><code>expr</code></i>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;la cha&icirc;ne de caract&egrave;res recherch&eacute;e<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i><code>chemin</code></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; le chemin du r&eacute;pertoire qui contient les fichiers &agrave; analyser<br />
+<br />
+<code>extended-grep</code> lit le contenu de tous les fichiers r&eacute;guliers pr&eacute;sents dans <i><code>chemin</code></i>, affiche le nom de chaque fichier qui contient la cha&icirc;ne de caract&egrave;res recherch&eacute;e, &quot;Aucun fichier valide&quot; si <i><code>expr</code></i> n'est pr&eacute;sente dans aucun des fichiers r&eacute;guliers du r&eacute;pertoire.<br />
+<br />
+N.B: Vous pouvez utiliser la fonction <code>strstr</code> de la biblioth&egrave;que  &lt;string.h&gt; pour trouver si une cha&icirc;ne de caract&egrave;res est pr&eacute;sente  dans une autre cha&icirc;ne de caract&egrave;res.<br />
+<br />
+&nbsp;</div>
+<div style="text-align: justify;">
+<h3>Exercice 7 : Inverseur de contenu en utilisant <code>lseek</code></h3>
+<div style="margin-left: 40px;">Cr&eacute;ez un programme qui prend en param&egrave;tre un nom de fichier <i><code>&lt;fic&gt;</code></i>, et lit caract&egrave;re par caract&egrave;re le contenu de <i><code>fic</code></i> pour l'&eacute;crire de mani&egrave;re invers&eacute;e dans un fichier <i><code>fic</code></i><code>.inv</code><br />
+<br />
+Par exemple, si <code><i>fic</i></code> contient &quot;<tt>fichier ok</tt>&quot; alors <i><code>fic</code></i><code>.inv</code> contiendra &quot;<tt>ko reihcif</tt>&quot;.<br />
+<br />
+N.B: votre programme doit imp&eacute;rativement utiliser la fonction <code>lseek</code> pour modifier l'offset lors de la lecture de <i><code>fic</code></i>.</div>
+<br />
+<br />
+<h3>Exercice 8 : Inverseur de contenu en utilisant <code>pread</code></h3>
+<div style="margin-left: 40px;">Reprenez l'exercice 7, mais cette fois-ci en utilisant la fonction <code>pread</code> plut&ocirc;t que la fonction <code>lseek</code>.</div>
+<br />
+<br />
+<div>&nbsp;</div>
+</div>
+<div style="text-align: justify;">&nbsp;</div>

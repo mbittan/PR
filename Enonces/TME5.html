@@ -1,0 +1,86 @@
+<br />
+<h1 style="text-align: center;">TME 5 - IPC POSIX</h1>
+<br />
+<h2>&nbsp;</h2>
+<h2>Objectifs</h2>
+<ol>
+    <li>Approfondir les notions de synchronisation et de segment de m&eacute;moire partag&eacute;e.</li>
+    <li>Mettre en &oelig;uvre les m&eacute;canismes de synchronisation relatifs aux IPCs POSIX.</li>
+</ol>
+<br />
+<div style="text-align: justify;">&nbsp;
+<h2>Remarque importante</h2>
+<div style="margin-left: 40px;">Comme pour les IPCs System V, les s&eacute;maphores, et les segments de m&eacute;moire partag&eacute;e que vous cr&eacute;ez &agrave; chaque ex&eacute;cution doivent imp&eacute;rativement &ecirc;tre <b>d&eacute;truits en fin de programme</b>. Si vous ne respectez pas cette r&egrave;gle, vous risquez de vous retrouver face &agrave; des comportements incoh&eacute;rents li&eacute;s &agrave; des variables dont les valeurs sont rest&eacute;es en m&eacute;moire apr&egrave;s la terminaison du programme qui les a cr&eacute;&eacute;es.<br />
+Vous pouvez trouver les &eacute;l&eacute;ments r&eacute;manents dans le r&eacute;pertoire <code>/dev/shm</code>. Pour les d&eacute;truire, il suffit de les effacer.<br />
+<br />
+Par ailleurs, n'oubliez pas qu'au moment de l'&eacute;dition de lien lors de la compilation de vos binaires, il faut pr&eacute;ciser que vous utilisez la biblioth&egrave;que RealTime ('<code>-lrt</code>' en fin de ligne dans votre fichier <code>Makefile</code>)<br />
+&nbsp;</div>
+<div style="text-align: justify;">&nbsp;</div>
+<h2>Remarque moins importante</h2>
+<div style="margin-left: 40px; ">Pour des raisons expliqu&eacute;es en cours, ce TME ne comporte pas d'exercice utilisant des files de messages POSIX. N&eacute;annmoins, nous mettons &agrave; votre disposition un exemple de code : <a href="http://australe.upmc.fr/access/content/group/MI014_01/Code%20Source/mq_example.c">mq_example.c</a>.</div>
+</div>
+<h2><br />
+Exercices</h2>
+<div style="text-align: justify;">&nbsp;</div>
+<h3>Exercice 1 : Remont&eacute;e de valeurs par partage de m&eacute;moire</h3>
+<div style="margin-left: 40px; text-align: justify;">Reprenez l'<a href="http://australe.upmc.fr/access/content/group/MI014_01/Supports%20de%20TME/TME%204%20-%20IPC%20System%20V#remontee">exercice 2 du TME 4</a> pour que les valeurs al&eacute;atoires transmises par les fils passent par un segment de m&eacute;moire partag&eacute;e POSIX.</div>
+<div style="margin-left: 40px;">&nbsp;</div>
+&nbsp; <br />
+<h3>Exercice 2 : Rendez-vous par s&eacute;maphores</h3>
+<div style="margin-left: 40px; text-align: justify;">Reprenez l'<a href="http://australe.upmc.fr/access/content/group/MI014_01/Supports%20de%20TME/TME%204%20-%20IPC%20System%20V#barrierSV">exercice 5 du TME 4</a> ; en utilisant des IPCs POSIX, est-il possible de r&eacute;soudre cet exercice sans compteur partag&eacute; ?<br />
+En fonction de votre r&eacute;ponse, programmez votre fonction <code>wait_barrier(int N)</code><br />
+&nbsp;</div>
+<br />
+<h3>Exercice 3 : Mini-serveur de messagerie instantan&eacute;e en m&eacute;moire partag&eacute;e</h3>
+<div style="margin-left: 40px;">
+<div style="text-align: justify;">On veut permettre &agrave; plusieurs utilisateurs d'&eacute;changer de petits messages sous forme de texte via le terminal. <br />
+<br />
+Pour ce faire, il faut d'abord r&eacute;diger un programme serveur qui sera lanc&eacute; de la mani&egrave;re suivante :</div>
+<div style="margin-left: 40px; text-align: justify;"><code>$ chat_server &lt;<span style="font-style: italic;">server_id</span>&gt;</code></div>
+<div style="text-align: justify;">o&ugrave; <code>server_id</code> repr&eacute;sente l'identifiant qui sera connu de tous les clients et qui permettra de transmettre des informations au serveur.<br />
+<br />
+Au lancement, le programme serveur cr&eacute;e un segment de m&eacute;moire partag&eacute;e qui a pour identifiant <code>/&lt;server_id&gt;_shm:0</code><br />
+Par exemple, un serveur d'identifiant <code>toto</code> cr&eacute;era un segment d'identifiant <code>/toto_shm:0</code><br />
+<br />
+Le serveur vient ensuite lire les requ&ecirc;tes client dans ce segment. Les requ&ecirc;tes auront toutes le m&ecirc;me format :</div>
+<div style="margin-left: 40px; text-align: justify;"><code>struct request {<br />
+&nbsp;&nbsp;&nbsp; long type;<br />
+&nbsp;&nbsp;&nbsp; char content</code>[1024];</div>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<div style="margin-left: 40px; text-align: justify;"><code> }</code></div>
+<div style="text-align: justify;">o&ugrave;</div>
+<ul>
+    <li><code>type</code> permet de conna&icirc;tre la s&eacute;mantique de la requ&ecirc;te (0 : connexion ; 1: diffusion de message ; 2 : d&eacute;connexion)</li>
+    <li><code>content</code> fournit des informations suppl&eacute;mentaires suivant le type de requ&ecirc;te (0/2 : identifiant du client ; 1 : contenu du message &agrave; diffuser)</li>
+</ul>
+<div style="text-align: justify;"><br />
+Lorsqu'il tra&icirc;te une requ&ecirc;te de connexion, le serveur stocke l'identifiant du client dans un tableau. Une requ&ecirc;te de d&eacute;connexion am&egrave;ne le serveur &agrave; &ocirc;ter l'identifiant du client de ce tableau.<br />
+Pour pouvoir diffuser des informations vers ses clients, le serveur utilise des segments de m&eacute;moire partag&eacute;e cr&eacute;&eacute;s par ces derniers.<br />
+<br />
+Chaque programme client est lanc&eacute; de la mani&egrave;re suivante :</div>
+<div style="margin-left: 40px; text-align: justify;"><code>$ chat_client &lt;<span style="font-style: italic;">client_id</span>&gt;</code><i><code> &lt;server_id&gt;</code></i></div>
+<div style="text-align: justify;">o&ugrave; <code>client_id</code> repr&eacute;sente l'identifiant qui sera transmis au serveur lors d'une connexion/d&eacute;connexion.<br />
+Au lancement, chaque programme client cr&eacute;e un segment de m&eacute;moire partag&eacute;e qui a pour identifiant <code>/&lt;client_id&gt;_shm:0</code><br />
+<br />
+Pour vous aider &agrave; g&eacute;rer la r&eacute;cup&eacute;ration et l'affichage des cha&icirc;nes de caract&egrave;res sur le terminal, voici un petit exemple de code qui boucle en attente de lecture sur l'entr&eacute;e standard pour ensuite &eacute;crire ce qui a &eacute;t&eacute; lu sur la sortie standard : <a href="http://australe.upmc.fr/access/content/group/MI014_01/Code%20Source/echo_loop.c"><code>echo_loop.c</code></a><br />
+<br />
+NB : <span style="font-weight: bold;">Le fonctionnement propos&eacute; dans cet &eacute;nonc&eacute; ne prend pas du tout en compte les besoins en synchronisation</span>. C'est &agrave; vous de pr&eacute;voir ces besoins, et d'impl&eacute;menter les s&eacute;maphores dont vous vous servirez pour que votre application s'ex&eacute;cute correctement.</div>
+</meta>
+</div>
+<br />
+<br />
+<br />
+<h3>Exercice 4 : D&icirc;ner de philosophes</h3>
+<div style="margin-left: 40px; text-align: justify;">Le d&icirc;ner de philosophes est un probl&egrave;me classique de synchronisation. N philosophes asiatiques sont assis autour d'une grande table ronde ;&nbsp;il y a un bol de riz devant chacun d'eux, et il y a exactement N baguettes dispos&eacute;es autour de la table de telle mani&egrave;re que chaque philosophe partage la baguette qui est &agrave; sa droite (respectivement &agrave; sa gauche) avec son voisin de gauche (resp. de droite.)<br />
+<br />
+Chaque philosophe pr&eacute;sente le m&ecirc;me comportement r&eacute;p&eacute;titif : il pense, puis&nbsp; prend les baguettes &agrave; sa gauche et &agrave; sa droite pour manger, puis s'arr&ecirc;te et repose les baguettes pour penser, puis recommence &agrave; manger, et ainsi de suite. Pour pouvoir manger, un philosophe doit disposer de la baguette &agrave; sa droite et de la baguette &agrave; sa gauche <b>au m&ecirc;me instant</b>.<br />
+<br />
+Un probl&egrave;me peut survenir lorsque tous les philosophes ont faim en m&ecirc;me temps, et chacun se saisit de la baguette qui est &agrave; sa gauche avant de chercher &agrave; prendre la baguette qui est &agrave; sa droite. <br />
+Que peut-il se passer alors ? Expliquez votre r&eacute;ponse.<br />
+<br />
+Programmez un d&icirc;ner de N philosophes en repr&eacute;sentant les baguettes &agrave; l'aide d'un tableau <code>baguettes</code> de N entiers. Au d&eacute;part, pour tout i, <code>baguettes[i] = 1</code>.<br />
+Chaque philosophe est repr&eacute;sent&eacute; par un processus distinct qui poss&egrave;de un identifiant i (0 &lt; i &lt; N)&nbsp; <br />
+Pour pouvoir manger, un philosophe d'identifiant i doit d'abord obtenir la baguette i et la baguette (i+1)%N, c'est-&agrave;-dire qu'il doit v&eacute;rifier que <code>baguettes[i] = </code><code>baguettes[(i+1)%N] = 1</code>, puis positionner ces deux cases &agrave; 0 (<code>baguettes[i] = </code><code>baguettes[(i+1)%N] = <span style="font-family: Arial,Verdana,sans-serif;">0</span></code>)<br />
+<br />
+Votre programme doit &ecirc;tre coh&eacute;rent vis-&agrave;-vis de l'utilisation des baguettes : c'est-&agrave;-dire que deux philosophes voisins ne peuvent pas &ecirc;tre en train de manger au m&ecirc;me instant.<br />
+Vous devez &eacute;galement respecter la concurrence : si un philosophe emp&ecirc;che bien ses deux voisins directs de manger en m&ecirc;me temps que lui, tous les autres philosophes sont capables de manger si les baguettes qui leur sont adjacentes sont disponibles.</div>

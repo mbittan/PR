@@ -1,0 +1,52 @@
+<br />
+<h1 style="text-align: center;">TME 9 &amp; 10 - Temps R&eacute;el avec POSIX</h1>
+<br />
+<h2>&nbsp;</h2>
+<h2>Objectifs</h2>
+<ol>
+    <li>Travailler sur les notions associ&eacute;es au temps r&eacute;el avec POSIX.</li>
+    <li>Mettre en &oelig;uvre la programmation d'applications avec des appels de POSIX.4.</li>
+</ol>
+<br />
+<h2>Exercices</h2>
+<div style="text-align: justify;">&nbsp;</div>
+<h3>Exercice 1 : Premier pas avec les E/S asynchrones</h3>
+<div style="text-align: justify; margin-left: 40px;"><span style="font-family: 'Times New Roman';">Donnez le code d'un programme qui prend en argument un nom de fichier et une cha&icirc;ne de caract&egrave;res, cr&eacute;e un fichier vide &agrave; partir du nom donn&eacute; en argument, puis &eacute;crit la cha&icirc;ne de caract&egrave;res dans le fichier par un appel asynchrone. Pendant l'&eacute;criture le programme cr&eacute;e un nouveau descripteur vers le m&ecirc;me fichier, puis attend la fin de l'&eacute;criture pour aller lire le contenu du fichier et l'affiche avant de se terminer.<br />
+N.B: la fin de l'&eacute;criture doit &ecirc;tre notifi&eacute;e au moyen d'un signal <code>SIGRTMIN</code>.<br />
+<br type="_moz" />
+</span></div>
+<h3>Exercice 2 : E/S asynchrones et temporisateur</h3>
+<div style="text-align: justify; margin-left: 40px;"><span style="font-family: 'Times New Roman';">Reprenez le programme de l'exercice 2 en le modifiant pour que la fin de l'&eacute;criture ne donne plus lieu a une notification. Le nouveau programme arme un temporisateur p&eacute;riodique, et utilise ce dernier pour v&eacute;rifier toutes les 50 nanosecondes si l'&eacute;criture est termin&eacute;e. Si c'est le cas, il affiche le contenu du fichier puis se termine.<br />
+<br type="_moz" />
+</span></div>
+<h3>Exercice 3 :&nbsp;Remont&eacute;e de valeurs par lectures/&eacute;critures asynchrones dans un fichier</h3>
+<div style="margin-left: 40px; text-align: justify;"><span style="font-family: 'Times New Roman'; ">Reprenez l'</span><a href="http://australe.upmc.fr/access/content/group/MI014_01/Supports%20de%20TME/TME%206%20-%20Gestion%20de%20Fichiers#remontee"><span style="font-family: 'Times New Roman'; ">exercice 4 du TME 6</span></a><span style="font-family: 'Times New Roman'; "> pour que les valeurs al&eacute;atoires transmises par les fils soient &eacute;chang&eacute;es avec le p&egrave;re en passant par un fichier ; cette fois-ci les lectures et les &eacute;critures doivent se faire de mani&egrave;re asynchrone.<br />
+<br />
+Question 1 : est-il n&eacute;cessaire de synchroniser le p&egrave;re avec ses fils pour que les lectures se fassent correctement ?<br />
+Question 2 : est-il n&eacute;cessaire de synchroniser les fils entre eux pour que les &eacute;critures se fassent correctement ?</span></div>
+<span style="font-family: Times New Roman,Times,serif;"> </span><br />
+<h3>Exercice 4 :&nbsp;Recopie farfelue</h3>
+<div style="text-align: justify; margin-left: 40px;"><span style="font-family: 'Times New Roman';">R&eacute;alisez un programme qui lit un fichier texte par suites de 10 caract&egrave;res et recopie ces caract&egrave;res dans un autre fichier, mais en inversant l'ordre des caract&egrave;res.<br />
+Lecture :&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char1&gt; &lt;char2&gt;&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char3&gt; &lt;char4&gt;&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char5&gt; &lt;char6&gt;&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char7&gt; &lt;char8&gt;&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char9&gt; &lt;char10&gt;<br />
+</span><span style="font-family: 'Times New Roman';">Ecriture :&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char10&gt; &lt;char9&gt;&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char8&gt; &lt;char7&gt;</span><span style="font-family: 'Times New Roman';">&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char6&gt; &lt;char5&gt;</span><span style="font-family: 'Times New Roman';">&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char4&gt; &lt;char3&gt;</span><span style="font-family: 'Times New Roman';">&nbsp;</span><span style="font-family: 'Times New Roman';">&lt;char2&gt; &lt;char1&gt;<br />
+</span><span style="font-family: 'Times New Roman';">La lecture est faite de mani&egrave;re synchrone, mais la recopie est faite en combinant (<code>aio_list</code>) des &eacute;critures asynchrones ; une &eacute;criture asynchrone pour chaque caract&egrave;re.<br />
+N.B: l'inversion de l'ordre d'&eacute;criture doit &ecirc;tre garantie.<br />
+<br type="_moz" />
+</span></div>
+<h3>Exercice 5 :&nbsp;Premi&egrave;re synchronisation par signaux TR</h3>
+<div style="text-align: justify; margin-left: 40px;"><span style="font-family: 'Times New Roman';">Donnez le code d'un programme qui cr&eacute;e une cha&icirc;ne de N processus. Chaque processus cr&eacute;&eacute; doit afficher son pid ainsi que son ordre de cr&eacute;ation, mais <b>attention</b> : l'ordre des affichages se fait dans l'ordre inverse des cr&eacute;ations. Cet ordre des affichages sera impos&eacute; en utilisant des signaux </span><span style="font-family: 'Times New Roman';">POSIX 4.<br />
+N.B: vous n'utiliserez pas de processus coordinateur pour effectuer cette synchronisation.<br />
+<br type="_moz" />
+</span></div>
+<h3>Exercice 6 :&nbsp;Remont&eacute;e de valeurs par signaux TR</h3>
+<div style="text-align: justify; margin-left: 40px;"><span style="font-family: 'Times New Roman';">Reprenez l'</span><a href="http://australe.upmc.fr/access/content/group/MI014_01/Supports%20de%20TME/TME%204%20-%20IPC%20System%20V#remontee"><span style="font-family: 'Times New Roman';">exercice 2 du TME 4</span></a><span style="font-family: 'Times New Roman';">&nbsp;pour que les valeurs al&eacute;atoires transmises par les fils ne passent plus par un segment de m&eacute;moire partag&eacute;e, mais soient envoy&eacute;es &agrave; l'aide de signaux temps r&eacute;el POSIX 4.<br />
+<br type="_moz" />
+</span></div>
+<h3>Exercice 7 : Barri&egrave;re de synchronisation par signaux TR</h3>
+<div style="margin-left: 40px;">
+<div style="text-align: justify;"><span style="font-family: Times New Roman,Times,serif;">
+<div style="text-align: justify;">Reprenez l'<a href="http://australe.upmc.fr/access/content/group/MI014_01/Supports%20de%20TME/TME%204%20-%20IPC%20System%20V#barrierSV">exercice 5 du TME 4</a>&nbsp;en utilisant des signaux temps r&eacute;el.<br />
+Question : est-il possible de r&eacute;soudre cet exercice sans utiliser l'un des processus comme coordinateur ?</div>
+<div style="text-align: justify;">En fonction de votre r&eacute;ponse, programmez votre fonction wait_barrier(int N)</div>
+</span></div>
+</div>

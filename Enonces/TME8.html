@@ -1,0 +1,61 @@
+<br />
+<h1 style="text-align: center;">TME 8 - Programmation avanc&eacute;e avec les sockets POSIX</h1>
+<br />
+<h2>&nbsp;</h2>
+<h2>Objectifs</h2>
+<ol>
+    <li>Approfondir les notions associ&eacute;es &agrave; la communication distante avec POSIX.</li>
+    <li>Mettre en &oelig;uvre la programmation d'applications complexes avec des sockets r&eacute;seau.</li>
+</ol>
+<br />
+<h2>Exercices</h2>
+<div style="text-align: justify;">&nbsp;</div>
+<h3>Exercice 1 : Mini-serveur FTP multi-thread&eacute;</h3>
+<div style="margin-left: 40px; text-align: justify;"><span style="font-family: Times New Roman,Times,serif;">Reprenez le programme serveur r&eacute;alis&eacute; pour l'exercice 4 du TME 7, et &eacute;tendez-le en un serveur <span style="font-weight: bold;">multi-thread&eacute;</span> pour pouvoir g&eacute;rer <code>N</code> clients en parall&egrave;le</span><span style="font-family: Times New Roman,Times,serif;"> (<code>N = 5</code>)</span><span style="font-family: Times New Roman,Times,serif;">.</span></div>
+<span style="font-family: Times New Roman,Times,serif;"> </span><br />
+<h3>Exercice 2 : Mini-serveur de messagerie instantan&eacute;e par communication de groupe</h3>
+<div style="margin-left: 40px;">
+<div style="text-align: justify;"><span style="font-family: Times New Roman,Times,serif;">R&eacute;alisez un programme qui permet d'&eacute;changer des messages texte en temps r&eacute;el avec d'autres processus en communiquant par multicast.<br />
+</span></div>
+<span style="font-family: Times New Roman,Times,serif;"> <br />
+Le programme est appel&eacute; de la mani&egrave;re suivante :</span><br />
+<div style="margin-left: 40px;"><span style="font-family: Courier New;"><code>$ mychat &lt;addr&gt; &lt;port&gt; &lt;pseudo&gt;</code></span></div>
+<span style="font-family: Times New Roman,Times,serif;">avec&nbsp;&nbsp; </span><br />
+<div style="margin-left: 40px;"><code>addr</code> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-family: Times New Roman,Times,serif;">l'adresse IP multicast &agrave; laquelle la conversation a lieu<br />
+</span><code><span style="font-family: Courier New;">port</span></code><span style="font-family: Times New Roman,Times,serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; le </span><span style="font-family: Times New Roman,Times,serif;">num&eacute;ro du </span><span style="font-family: Times New Roman,Times,serif;">port sur lequel la conversation a lieu<br />
+<code>pseudo</code> &nbsp;</span><span style="font-family: Times New Roman,Times,serif;"> &nbsp;&nbsp; le pseudonyme sous lequel l'utilisateur veut appara&icirc;tre</span><span style="font-family: Times New Roman;"> dans la conversation</span></div>
+&nbsp;  <span style="font-family: Times New Roman,Times,serif;"><br />
+Une fois lanc&eacute;, le programme affiche tous les messages envoy&eacute;s par d'autres utilisateurs et permet parall&egrave;lement d'envoyer des messages pour participer &agrave; la conversation.</span><span style="font-family: Times New Roman,Times,serif;"><br />
+<br />
+ATTENTION : Prenez bien garde &agrave; l'adresse IP que vous utilisez pour le multicast. Si celle-ci n'est pas valide, vous obtiendrez une erreur &agrave; l'ex&eacute;cution lors du <code>setsockopt</code>.<br />
+<br />
+</span></div>
+<br />
+<h3>Exercice 3 : Sonar</h3>
+<div style="margin-left: 40px;"><span style="font-family: Times New Roman,Times,serif;">On cherche &agrave; cr&eacute;er une application qui permet, &agrave; la mani&egrave;re d'un sonar, de rep&eacute;rer tous les n&oelig;uds disponibles sur le r&eacute;seau local. <br />
+Un programme <code>sonar</code> diffuse toutes les 3 secondes un message &quot;<code>PING</code>&quot; en mode broadcast sur le port <code>9999</code>, puis attend en r&eacute;ponse un message &quot;<code>PONG</code>&quot; des sites disponibles et affiche leur identit&eacute;. Le sonar comporte deux threads : un thread qui attend les r&eacute;ponses sur son port <code>9999</code>, et un autre qui s'occupe de la diffusion. <br />
+De leur c&ocirc;t&eacute;, les n&oelig;uds disponibles ex&eacute;cutent le programme <code>ponger</code> qui attend l'arriv&eacute;e de messages sur le port de diffusion, et renvoie &agrave; l'&eacute;metteur de tout <code>PING</code> un message <code>PONG</code>.</span><span style="font-family: Times New Roman,Times,serif;"> <br />
+<br />
+N.B: Pour obtenir l'adresse valide de broadcast sur votre sous-r&eacute;seau, utilisez la valeur <code>INADDR_BROADCAST</code>.<br />
+<br />
+</span></div>
+<br />
+<h3>Exercice 4 : Journalisation de connexions</h3>
+<div style="margin-left: 40px;"><span style="font-family: Times New Roman,Times,serif;">Ecrivez un programme serveur <span style="font-weight: bold;">mono-processus mono-thread&eacute;</span> qui se met en attente de connexions concurrentes sur <b>plusieurs</b> ports diff&eacute;rents, et enregistre dans un fichier les adresses des clients successifs.<br />
+<br />
+Le <a href="http://australe.upmc.fr/access/content/group/MI014_01/Code%20Source/tme8exo4-client.c">code du processus client vous est fourni ici</a>. Il est&nbsp;</span><span style="font-family: Times New Roman,Times,serif;">appel&eacute; ainsi :</span><br />
+<div style="margin-left: 40px;"><span style="font-family: Courier New;"><code>$ connectclient </code><i><code>&lt;addr&gt; &lt;port&gt;</code></i></span></div>
+<span style="font-family: Times New Roman,Times,serif;">avec&nbsp;&nbsp; </span><br />
+<div style="margin-left: 40px;"><span style="font-family: Courier New;"><code>addr</code></span><span style="font-family: Times New Roman,Times,serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; l'adresse &agrave; laquelle le serveur attend les demandes de connexion</span><br />
+<span style="font-family: Courier New;"><code>port</code></span><span style="font-family: Times New Roman,Times,serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; un des num&eacute;ros de port sur lesquels le serveur attend les demandes de connexion</span></div>
+&nbsp; <br />
+<span style="font-family: Times New Roman,Times,serif;"><br />
+Le programme serveur est appel&eacute; de la mani&egrave;re suivante :</span><br />
+<div style="margin-left: 40px;"><span style="font-family: Courier New;"><code>$ connectserver </code><i><code>&lt;port1&gt; [&lt;port2&gt; ...]</code></i></span></div>
+<span style="font-family: Times New Roman,Times,serif;">avec&nbsp;&nbsp; </span><br />
+<div style="margin-left: 40px;"><span style="font-family: Courier New;"><code>port1</code></span><span style="font-family: Times New Roman,Times,serif;">, <span style="font-family: Courier New;"><code>port2</code></span>, ... &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; les </span><span style="font-family: Times New Roman,Times,serif;">num&eacute;ros de </span><span style="font-family: Times New Roman,Times,serif;">port sur lesquels le serveur attend les demandes de connexion<br />
+</span></div>
+<span style="font-family: Times New Roman,Times,serif;"><br />
+Le serveur accepte automatiquement les demandes de connexion, et enregistre pour chacune l'adresse du client dans un fichier <code>cxlog</code>.</span></div>
+<br />
+<br />

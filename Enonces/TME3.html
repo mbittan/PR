@@ -1,0 +1,90 @@
+<br />
+<h1 style="text-align: center;">TME 3 - Processus l&eacute;gers (2)</h1>
+<br />
+<h2>&nbsp;</h2>
+<h2>Objectifs</h2>
+<ol>
+    <li>Mettre en pratique la&nbsp;notion de processus l&eacute;ger.</li>
+    <li>Comprendre les ph&eacute;nom&egrave;nes de concurrence induits par les threads.</li>
+    <li>Mettre en &oelig;uvre les m&eacute;canismes de synchronisation propres aux threads.</li>
+</ol>
+<div style="margin-left: 40px; text-align: justify;"><i>NB: Lorsqu'il vous est demand&eacute; de programmer des synchronisations entre threads, <b>vous devez vous limiter aux m&eacute;canismes fournis par la biblioth&egrave;que pthreads</b>. Vous &eacute;viterez notamment d'utiliser les s&eacute;maphores anonymes...</i></div>
+<div style="text-align: justify;">&nbsp;</div>
+<h2>Exercices</h2>
+<br />
+<h3>Exercice 1 : Traitement concurrent de fichiers avec un nombre illimit&eacute; de threads</h3>
+<div style="margin-left: 40px; text-align: justify;">Le programme ci-dessous convertit en majuscules le contenu d&rsquo;un fichier dont le nom est pass&eacute; en argument.<br />
+<br />
+<div style="margin-left: 40px;"><code>#define _XOPEN_SOURCE 700<br />
+#include &lt;stdio.h&gt;<br />
+#include &lt;stdlib.h&gt;<br />
+#include &lt;ctype.h&gt;<br />
+<br />
+int main (int argc, char ** argv)<br />
+&nbsp;&nbsp;&nbsp; FILE* fp1, *fp2; <br />
+&nbsp;&nbsp;&nbsp; int c = 1;<br />
+<br />
+&nbsp;&nbsp;&nbsp; fp1= fopen (argv[1], &quot;r&quot;); <br />
+&nbsp;&nbsp;&nbsp; fp2= fopen (argv[1], &quot;r+&quot;);<br />
+&nbsp;&nbsp;&nbsp; if ((fp1== NULL) || (fp2== NULL)) {<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; perror (&quot;fopen&quot;);<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; exit (1);<br />
+&nbsp;&nbsp;&nbsp; }<br />
+<br />
+&nbsp;&nbsp;&nbsp; while (c !=EOF) {<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; c=fgetc(fp1);<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (c!=EOF)<br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; fputc(toupper(c),fp2);<br />
+&nbsp;&nbsp;&nbsp; }<br />
+<br />
+&nbsp;&nbsp;&nbsp; fclose (fp1);<br />
+&nbsp;&nbsp;&nbsp; fclose (fp2);<br />
+<br />
+&nbsp;&nbsp;&nbsp; return EXIT_SUCCESS<br />
+}</code></div>
+<br />
+Modifiez ce programme pour qu&rsquo;il accepte le nom de plusieurs fichiers en argument. Le programme doit cr&eacute;er une thread pour chaque fichier dont le nom est pass&eacute; en argument. Chaque conversion de fichier se fait donc au sein d&rsquo;une thread cr&eacute;&eacute;e pour cette occasion. Les threads s&rsquo;ex&eacute;cutent en parall&egrave;le.</div>
+&nbsp; <br />
+<h3>Exercice 2 :&nbsp;Traitement concurrent de fichiers avec un pool fixe de threads</h3>
+<div style="margin-left: 40px; text-align: justify;">On consid&egrave;re maintenant que le nombre de threads cr&eacute;&eacute;es (<code>NB_THREAD</code>) est inf&eacute;rieur au nombre de fichiers &agrave; traiter. Chaque thread convertit un fichier. D&egrave;s qu&rsquo;elle a termin&eacute; la conversion, elle doit v&eacute;rifier s&rsquo;il y a encore des fichiers &agrave; traiter. Si c&rsquo;est le cas elle en traite un nouveau, et r&eacute;p&egrave;te cette proc&eacute;dure tant qu&rsquo;il existe des fichiers &agrave; convertir. Sinon elle se termine.</div>
+<div style="margin-left: 40px;"><br />
+Modifiez le programme de l'exercice 1 en cons&eacute;quence. <br />
+&nbsp;</div>
+<br />
+<h3>Exercice 3 : Producteur / Consommateur</h3>
+<div style="margin-left: 40px;">
+<div style="text-align: justify;">Nous voulons faire communiquer une thread <code>Producteur</code> et une thread <code>Consommateur</code> en utilisant une pile de taille fixe (un tableau de 100 caract&egrave;res). Les valeurs empil&eacute;es sont des caract&egrave;res. La thread <code>Producteur</code> utilise la fonction <code>Push()</code> pour empiler un caract&egrave;re au sommet de la pile et la thread <code>Consommateur</code> utilise la fonction <code>Pop()</code> pour d&eacute;sempiler une valeur du sommet de la pile. Une variable globale <code>stack_size</code> contr&ocirc;le le sommet de la pile.&nbsp;&nbsp;&nbsp;</div>
+<div style="text-align: justify;"><br />
+Programmez les fonctions <code>Push()</code> et <code>Pop()</code> d&eacute;crites ci-dessus pour faire communiquer les threads <code>Producteur</code> et <code>Consommateur</code>. Vous placerez ces fonctions dans un fichier <code>thread_stack.c</code> ; votre programme principal acc&eacute;dera &agrave; ces fonctions gr&acirc;ce au fichier d'en-t&ecirc;te <code>thread_stack.h</code></div>
+<br />
+Testez votre programme principal avec 2&nbsp;threads ayant pour corps respectivement :<br />
+<br />
+<div style="margin-left: 40px;"><code>void* Producteur(void* arg) { <br />
+&nbsp;&nbsp;&nbsp; int c; <br />
+&nbsp;&nbsp;&nbsp; while ((c = getchar()) != EOF) { <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Push(c); <br />
+&nbsp;&nbsp;&nbsp; } <br />
+}</code></div>
+<br />
+et<br />
+<br />
+<div style="margin-left: 40px;"><code>void* Consommmateur(void* arg) { <br />
+&nbsp;&nbsp;&nbsp; for (;;) { <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; putchar(Pop()); <br />
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; fflush(stdout); <br />
+&nbsp;&nbsp;&nbsp; } </code><br />
+<code> }</code></div>
+</div>
+<br />
+<h3>Exercice 4 : ProducteurS / ConsommateurS<a name="prodcons"></a></h3>
+<div style="margin-left: 40px;">Reprenez l'exercice 3 en faisant &eacute;changer <span style="font-weight: bold;">plusieurs producteurs</span> et <span style="font-weight: bold;">plusieurs consommateurs</span> de fa&ccedil;on concurrente.</div>
+<br />
+<br />
+<h3>Exercice 5 : Cha&icirc;ne de threads et signaux</h3>
+<div style="margin-left: 40px; text-align: justify;">On d&eacute;sire cr&eacute;er une cha&icirc;ne de N threads (la thread main cr&eacute;e une thread, qui &agrave; son tour en cr&eacute;e une autre, et ainsi de suite N fois) qui fonctionne de la mani&egrave;re suivante. Au d&eacute;marrage du programme, la thread principale masque <b>tous</b> les signaux, puis d&eacute;marre la cha&icirc;ne de cr&eacute;ation. Ensuite  la thread main attend que toutes les threads de la cha&icirc;ne aient &eacute;t&eacute; cr&eacute;&eacute;es avant d'afficher &quot;Tous mes descendants sont cr&eacute;&eacute;s&quot;.&nbsp; Apr&egrave;s leur cr&eacute;ation, toutes les threads (&agrave; l'exception de la thread main) se bloquent en attendant que la thread main les lib&egrave;re. Parall&egrave;lement, la thread main se bloque en attente d'un signal <code>SIGINT</code> &eacute;mis au processus par l'utilisateur avec un <code>CTRL+C</code>. A la d&eacute;livrance du signal <code>SIGINT</code>, la thread main d&eacute;bloque les autres threads de la cha&icirc;ne puis attend enfin que toutes se soient termin&eacute;es (<code>pthread_exit</code>) avant d'afficher &quot;Tous mes descendants se sont termin&eacute;s&quot;.<br />
+<i><br />
+NB : Seule la thread main doit pouvoir &ecirc;tre interrompue par un signal.<br />
+</i></div>
+<br />
+<br />
+<br />

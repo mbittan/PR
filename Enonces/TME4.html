@@ -1,0 +1,72 @@
+<br />
+<h1 style="text-align: center;">TME 4 - IPC System V</h1>
+<br />
+<h2>&nbsp;</h2>
+<h2>Objectifs</h2>
+<ol>
+    <li>Mettre en pratique les notions de file de message et de segment de m&eacute;moire partag&eacute;e.</li>
+    <li>Comprendre les ph&eacute;nom&egrave;nes d'incoh&eacute;rence pouvant &ecirc;tre induits par le partage de m&eacute;moire.</li>
+    <li>Mettre en &oelig;uvre les m&eacute;canismes de synchronisation relatifs aux IPCs System V.</li>
+</ol>
+<br />
+<div style="text-align: justify;">&nbsp;
+<h2>Remarques importantes</h2>
+<div style="margin-left: 40px;">Les files de messages, les tableaux de s&eacute;maphores, et les segments de m&eacute;moire partag&eacute;e que vous cr&eacute;ez &agrave; chaque ex&eacute;cution doivent imp&eacute;rativement &ecirc;tre <b>d&eacute;truits en fin de programme</b>. Si vous ne respectez pas cette r&egrave;gle, vous risquez de vous retrouver face &agrave; des comportements incoh&eacute;rents li&eacute;s &agrave; des variables dont les valeurs sont rest&eacute;es en m&eacute;moire apr&egrave;s la terminaison du programme qui les a cr&eacute;&eacute;es.<br />
+Pour afficher l'ensemble des IPCs pr&eacute;sentes en m&eacute;moire, vous pouvez utiliser la commande <code>ipcs</code>.<br />
+Les commandes <code>ipcrm</code> et <code><a href="http://australe.upmc.fr/access/content/group/MI014_01/Code%20Source/ipcclean">ipcclean</a></code> servent &agrave; d&eacute;truire des IPCs depuis le terminal. <br />
+<br />
+Par ailleurs, l'ensemble de ce TME met en oeuvre les IPC <b>System V</b>, et non POSIX. En d&eacute;but de vos fichiers source, il faut donc remplacer :<br />
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>#define XOPEN_SOURCE 700</code><br />
+par<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><code>#define SVID_SOURCE 1</code></b><br />
+&nbsp;</div>
+<div style="text-align: justify;">&nbsp;</div>
+</div>
+<h2>Exercices</h2>
+<div style="text-align: justify;">&nbsp;</div>
+<h3>Exercice 1 : Remont&eacute;e de valeurs par file de messages</h3>
+<div style="text-align: justify; margin-left: 40px;">Ecrivez un programme o&ugrave; le processus principal cr&eacute;e <code>N</code> processus fils. Chaque processus<span style="font-family: monospace;"><span style="font-family: Arial,Verdana,sans-serif;"> fils</span></span> g&eacute;n&egrave;re une valeur al&eacute;atoire <span style="font-family: Courier New,Courier,monospace;">random_val</span> qu'il ins&egrave;re dans une file de messages System V &agrave; destination du processus principal. La valeur al&eacute;atoire est calcul&eacute;e ainsi :</div>
+<div style="text-align: justify; margin-left: 80px;"><span style="font-family: Courier New,Courier,monospace;">random_val </span><span style="font-family: Courier New,Courier,monospace;">= (int) (10*(float)rand()/ RAND_MAX);</span></div>
+<div style="text-align: justify; margin-left: 40px;">De son c&ocirc;t&eacute;, le processus principal doit attendre la terminaison de tous ses fils, puis extraire toutes les valeurs de la file de messages pour ensuite les additionner et enfin afficher la somme r&eacute;sultante.<br />
+&nbsp;</div>
+<br />
+<h3>Exercice 2 : Remont&eacute;e de valeurs par partage de m&eacute;moire<a name="remontee"></a></h3>
+<div style="margin-left: 40px; text-align: justify;">Modifiez le programme de l'exercice 1 pour que les valeurs al&eacute;atoires transmises par les fils passent non plus par une file de messages, mais par un segment de m&eacute;moire partag&eacute;e System V.</div>
+<div style="margin-left: 40px;">&nbsp;</div>
+&nbsp; <br />
+<h3>Exercice 3 : Serveur de valeurs al&eacute;atoires &agrave; files multiples</h3>
+<div style="margin-left: 40px;">On veut encore que le programme principal cr&eacute;e <code>N</code> processus fils. Chaque processus est associ&eacute; &agrave; une file de messages <code>MQ<i>i</i> </code>(<code><i>i</i></code> le num&eacute;ro d&rsquo;ordre de cr&eacute;ation du processus fils&nbsp; : <code>0 &lt; i &lt; N-1</code> ; le programme principal est associ&eacute; &agrave; la file <code>MQ</code><i><code>N</code></i>.) Il y a donc en tout <code>N+1</code> files de messages.</div>
+<div style="margin-left: 40px; text-align: justify;">Cette fois-ci la valeur al&eacute;atoire g&eacute;n&eacute;r&eacute;e par chaque processus fils, not&eacute;e <code>max_msg_i</code> (<code>1 &lt;= max_msg_i &lt;= N</code>), repr&eacute;sente le nombre de messages que le processus fils veut recevoir de son p&egrave;re. Une fois g&eacute;n&eacute;r&eacute;e, chaque fils envoie cette valeur &agrave; son p&egrave;re par le biais de la file de messages associ&eacute;e au processus principal. Chaque processus fils attend ensuite sur sa propre file de messages que son p&egrave;re lui renvoie <code>max_msg_i</code> messages.<br />
+Dans ces messages, le processus p&egrave;re ins&egrave;re &agrave; chaque fois une valeur tir&eacute;e al&eacute;atoirement entre 0 et 100.<br />
+Lorsque <b>tous</b> les messages ont &eacute;t&eacute; extraits de sa file, chaque processus fils fait la somme des valeurs re&ccedil;ues et affiche le r&eacute;sultat.<br />
+&nbsp;</div>
+<br />
+<h3>Exercice 4 : Serveur de valeurs al&eacute;atoires &agrave; file unique</h3>
+<div style="margin-left: 40px; text-align: justify;">Reprenez le programme de l'exercice 3 ; mais cette fois-ci les processus &eacute;changent tous dans <span style="font-weight: bold;">une</span><b> m&ecirc;me et unique file de messages</b>.<br />
+<div>&nbsp;</div>
+</div>
+<br />
+<h3>Exercice 5 : Rendez-vous par s&eacute;maphores<a name="barrierSV"></a></h3>
+<div style="margin-left: 40px; text-align: justify;">Une barri&egrave;re est un m&eacute;canisme de synchronisation. Elle permet &agrave; <code>N</code> processus de prendre rendez-vous en un point donn&eacute; de leur ex&eacute;cution. Quand un des processus atteint la barri&egrave;re, il reste bloqu&eacute; jusqu&rsquo;&agrave; ce que tous les autres arrivent &agrave; la barri&egrave;re. Lorsque les <code>N</code> processus sont arriv&eacute;s &agrave; la barri&egrave;re, chacun peut alors reprendre son ex&eacute;cution.<br />
+<br />
+<b>Sans utiliser de compteur partag&eacute;</b>, programmez la fonction&nbsp; <code>wait_barrier(int N)</code> qui permet &agrave; <code>N</code> processus de se synchroniser sur une barri&egrave;re. Testez votre programme en ex&eacute;cutant plusieurs processus distincts avec le code suivant :<br />
+<div style="margin-left: 40px;"><code>void process (int NB_PCS) {<br />
+&nbsp;&nbsp;&nbsp; printf (&quot;avant barri&egrave;re);<br />
+&nbsp;&nbsp;&nbsp; wait_barrier (NB_PCS);<br />
+&nbsp;&nbsp;&nbsp; printf (&quot;apr&egrave;s barri&egrave;re);<br />
+&nbsp;&nbsp;&nbsp; exit (0);<br />
+}</code></div>
+<br />
+L'affichage devra &ecirc;tre le suivant :<br />
+<div style="margin-left: 40px; font-style: italic;"><tt>avant barri&egrave;re<br />
+avant barri&egrave;re<br />
+apr&egrave;s barri&egrave;re <br />
+apr&egrave;s barri&egrave;re</tt></div>
+En d&rsquo;autres termes,&nbsp; on veut que tous les messages&nbsp; <span style="font-style: italic;">&laquo;&nbsp;<tt>avant barri&egrave;re</tt>&nbsp;&raquo;</span> soient affich&eacute;s avant les messages <span style="font-style: italic;">&laquo;&nbsp;<tt>apr&egrave;s barri&egrave;re</tt>&nbsp;&raquo;</span>.<br />
+&nbsp;</div>
+<br />
+<h3>Exercice 6 : ProducteurS / ConsommateurS</h3>
+<div style="margin-left: 40px;">Reprenez l'<a href="http://australe.upmc.fr/access/content/group/MI014_01/Supports%20de%20TME/TME2-1.html#prodcons">exercice 4 du TME 3</a> en construisant votre pile dans un segment de m&eacute;moire partag&eacute;e.</div>
+<br />
+<br />
+<br />

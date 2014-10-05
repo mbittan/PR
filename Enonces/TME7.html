@@ -1,0 +1,94 @@
+<span style="font-family: Arial;"><br />
+</span>
+<h1 style="text-align: center;"><span style="font-family: Arial;">TME 7 - Introduction aux sockets POSIX</span></h1>
+<span style="font-family: Arial;"> <br />
+</span>
+<h2><span style="font-family: Arial;">&nbsp;</span></h2>
+<h2><span style="font-family: Arial;">Objectifs</span></h2>
+<ol>
+    <li><span style="font-family: Arial;">Aborder les notions associ&eacute;es &agrave; la communication distante avec POSIX.</span></li>
+    <li><span style="font-family: Arial;">Mettre en &oelig;uvre la programmation d'applications avec des sockets r&eacute;seau.</span></li>
+</ol>
+<span style="font-family: Arial;"> <br />
+</span>
+<h2><span style="font-family: Arial;">Exercices</span></h2>
+<div style="text-align: justify;"><span style="font-family: Arial;">&nbsp;</span></div>
+<h3><span style="font-family: Arial;">Exercice 1 : Remont&eacute;e de valeurs par communication distante</span></h3>
+<div style="margin-left: 40px; text-align: justify;"><span style="font-family: Arial;">Reprenez l'</span><a href="http://australe.upmc.fr/access/content/group/MI014_01/Supports%20de%20TME/TME%204%20-%20IPC%20System%20V#remontee"><span style="font-family: Arial;">exercice 2 du TME 4</span></a><span style="font-family: Arial;"> pour que les valeurs al&eacute;atoires transmises par les fils ne passent plus par un segment de m&eacute;moire partag&eacute;e, mais soient transmises au p&egrave;re au moyen de datagrammes UDP.<br />
+<br />
+</span><i><span style="font-family: Arial;">N.B: Vous pouvez vous contenter de ne cr&eacute;er <b>qu'<span style="font-style: italic;">une seule et unique</span></b><span style="font-style: italic;"> socket UDP</span>, et utiliser celle-ci &agrave; la fois pour tous les envois et toutes les r&eacute;ceptions de datagrammes.</span></i></div>
+<div style="margin-left: 40px;"><span style="font-family: Arial;">&nbsp;&nbsp; <br />
+</span></div>
+<h3><span style="font-family: Arial;">Exercice 2 : Recopie de fichier par communication distante</span></h3>
+<div style="margin-left: 40px; text-align: justify;"><span style="font-family: Arial;">On souhaite transmettre le contenu d'un fichier &agrave; un processus distant au moyen d'une connexion TCP.<br />
+<br style="font-family: Times New Roman,Times,serif;" />
+Le programme &eacute;metteur est appel&eacute; ainsi :<br />
+</span>
+<div style="margin-left: 40px;"><span style="font-family: Courier New;"><code>$ sendfile </code><i><code>&lt;addr&gt; &lt;port&gt; &lt;filename&gt;</code></i></span></div>
+<span style="font-family: Arial;"> avec&nbsp;&nbsp; <br />
+</span>
+<div style="margin-left: 40px;"><i><span style="font-family: Courier New;"><code>addr</code></span></i><span style="font-family: Arial;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; l'adresse &agrave; laquelle le r&eacute;cepteur attend les demandes de connexion<br />
+<i><span style="font-family: Courier New;"><code>port</code></span></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; le num&eacute;ro du port sur lequel le r&eacute;cepteur attend les demandes de connexion<br />
+<i><code>filename</code></i>&nbsp; &nbsp;&nbsp; le nom du fichier &agrave; recopier</span></div>
+<span style="font-family: Arial;"> &nbsp; <br />
+Lorsqu'il obtient sa connexion avec le programme r&eacute;cepteur, l'&eacute;metteur envoie d'abord le nom du fichier, puis le contenu de celui-ci.<br />
+<br />
+Le programme r&eacute;cepteur est appel&eacute; ainsi :<br />
+</span>
+<div style="margin-left: 40px;"><span style="font-family: Courier New;"><code>$ recvfile </code></span><i><span style="font-family: Courier New;"><code>&lt;port&gt;</code></span></i></div>
+<span style="font-family: Arial;"> avec&nbsp;&nbsp; <br />
+</span>
+<div style="margin-left: 40px;"><i><span style="font-family: Courier New;"><code>port</code></span></i><span style="font-family: Arial;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; le num&eacute;ro du port sur lequel le r&eacute;cepteur attend les demandes de connexion</span></div>
+<span style="font-family: Arial;"> &nbsp; <br />
+Le programme r&eacute;cepteur stocke les fichiers recopi&eacute;s dans son r&eacute;pertoire d'ex&eacute;cution.<br />
+</span></div>
+<span style="font-family: Arial;"> <br />
+</span>
+<h3><span style="font-family: Arial;">Exercice 3 : Serveur d'environnement</span></h3>
+<div style="margin-left: 40px;">
+<div style="text-align: justify;"><span style="font-family: Arial;">On souhaite r&eacute;aliser un mini-serveur d'environnement qui communique avec ses clients par UDP. Ce qu'on appelle ici un environnement est une liste de couples {identificateur, valeur}. Les identificateurs et les valeurs sont de type cha&icirc;ne de caract&egrave;res. <br />
+<br />
+Le serveur reconnait deux op&eacute;rations :<br />
+</span>
+<ul>
+    <li><span style="font-family: Courier New;"><code>set(identificateur, valeur)</code></span><span style="font-family: Arial;"> : pour fixer la valeur d'un identificateur</span></li>
+    <li><span style="font-family: Courier New;"><code>get(identificateur)</code></span><span style="font-family: Arial;"> : pour obtenir la valeur d'un identificateur</span></li>
+</ul>
+<span style="font-family: Arial;"> Un processus client boucle en attente de requ&ecirc;tes de l'usager, entr&eacute;es au clavier selon un des deux formats suivants :<br />
+</span>
+<ul>
+    <li><span style="font-family: Courier New;"><code>S </code></span><i><span style="font-family: Courier New;"><code>&lt;identificateur&gt; &lt;valeur&gt;</code></span></i><span style="font-family: Arial;"> : pour un <code>set</code><br />
+    </span></li>
+    <li><span style="font-family: Courier New;"><code>G </code><i><code>&lt;identificateur&gt;</code></i></span><span style="font-family: Arial;"> : pour un <span style="font-family: Courier New;"><code>get</code></span><br />
+    </span></li>
+</ul>
+<span style="font-family: Arial;"> Le processus client interpr&egrave;te la commande de l'usager, construit le message correspondant &agrave; la requ&ecirc;te et envoie ce message &agrave; un serveur d'adresse connue en utilisant une socket et le protocole UDP. Il attend alors la r&eacute;ponse/confirmation&nbsp; du serveur et affiche la r&eacute;ponse &agrave; l'usager.<br />
+<br />
+<i>N.B: Pour &eacute;viter d'avoir &agrave; d&eacute;finir et &agrave; g&eacute;rer une structure de donn&eacute;e pour l'environnement, on pourra utiliser directement l'environnement du processus serveur via les fonctions <code>getenv</code> et <code>setenv</code>.</i> </span></div>
+</div>
+<span style="font-family: Arial;"> <br />
+</span>
+<h3><span style="font-family: Arial;">Exercice 4 : Mini-serveur FTP<a name="ftp"></a></span></h3>
+<div style="margin-left: 40px;"><span style="font-family: Arial;">R&eacute;digez un programme client et un programme serveur qui simulent une application FTP au moyen de sockets TCP.<br />
+<br />
+Le programme serveur est appel&eacute; de la mani&egrave;re suivante :<br />
+</span>
+<div style="margin-left: 40px;"><span style="font-family: Courier New;"><code>$ ftpserver &lt;port&gt; &lt;dir_path&gt;</code></span></div>
+<span style="font-family: Arial;"> avec&nbsp;&nbsp; <br />
+</span>
+<div style="margin-left: 40px;"><span style="font-family: Courier New;"><code>port&nbsp;</code></span><span style="font-family: Arial;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; le num&eacute;ro du port sur lequel le serveur attend les demandes de connexion<br />
+<code>dir_path</code>&nbsp;&nbsp;&nbsp; le chemin du r&eacute;pertoire dans lequel sont conserv&eacute;s les fichiers upload&eacute;s</span></div>
+<span style="font-family: Arial;"> &nbsp;  <br />
+Le serveur effectue trois types d'op&eacute;rations :<br />
+</span>
+<ol>
+    <li><span style="font-family: Arial;">&quot;UPLOAD&quot; : t&eacute;l&eacute;chargement de fichier depuis le client vers le serveur</span></li>
+    <li><span style="font-family: Arial;">&quot;DOWNLOAD&quot; : t&eacute;l&eacute;chargement de fichier depuis le serveur vers le client</span></li>
+    <li><span style="font-family: Arial;">&quot;LIST&quot; : obtention de la liste des fichiers conserv&eacute;s sur le serveur</span></li>
+</ol>
+<span style="font-family: Arial;"> Une fois connect&eacute; au serveur, un client peut requ&eacute;rir chacune des op&eacute;rations en envoyant un message contenant la cha&icirc;ne de caract&egrave;res correspondante.<br />
+<i>N.B: On consid&egrave;re que le serveur ne peut g&eacute;rer qu'un seul client &agrave; la fois.</i><br />
+</span></div>
+<span style="font-family: Arial;"> <br />
+<br />
+</span>

@@ -1,0 +1,57 @@
+<br />
+<h1 style="text-align: center;">TME 2 - Processus l&eacute;gers (1)</h1>
+<br />
+<h2>&nbsp;</h2>
+<h2>Objectifs</h2>
+<ol>
+    <li>Mettre en pratique la&nbsp;notion de processus l&eacute;ger.</li>
+    <li>Comprendre les ph&eacute;nom&egrave;nes de concurrence induits par les threads.</li>
+    <li>Mettre en &oelig;uvre les m&eacute;canismes de synchronisation propres aux threads.</li>
+</ol>
+<div style="margin-left: 40px; text-align: justify;"><i>NB: Lorsqu'il vous est demand&eacute; de programmer des synchronisations entre threads, <b>vous devez vous limiter aux m&eacute;canismes fournis par la biblioth&egrave;que pthreads</b>. Vous &eacute;viterez notamment d'utiliser les s&eacute;maphores anonymes...</i></div>
+<div style="text-align: justify;">&nbsp;</div>
+<h2>Exercices</h2>
+<div style="text-align: justify;">&nbsp;</div>
+<h3>&nbsp;</h3>
+<h3>Exercice 1 : Cr&eacute;ation de threads</h3>
+<div style="text-align: justify; margin-left: 40px;">Ecrivez un programme o&ugrave; la thread principale cr&eacute;e N nouvelles threads et passe en param&egrave;tre &agrave; chacune son num&eacute;ro d&rsquo;ordre de cr&eacute;ation&nbsp; <code>i</code>&nbsp; (<code>0 &lt; i &lt; N -1</code>). Chaque thread ainsi cr&eacute;&eacute;e va ex&eacute;cuter la fonction <code>thread_rand</code>.<br />
+Le corps de la thread <code>thread_rand</code> est tr&egrave;s simple. Elle affiche son num&eacute;ro d&rsquo;ordre et son identit&eacute; (<code>tid</code>). Ensuite elle se termine en retournant son num&eacute;ro d&rsquo;ordre multipli&eacute; par 2.&nbsp;&nbsp; <br />
+De son c&ocirc;t&eacute;, la thread principale doit attendre la terminaison de toutes les threads <code>thread_rand</code> en affichant la valeur renvoy&eacute;e par chaque&nbsp; <code>thread_rand</code> lors de sa terminaison.<br />
+&nbsp;</div>
+<br />
+<h3>Exercice 2 : Exclusion mutuelle</h3>
+<div style="margin-left: 40px; text-align: justify;">Modifiez le programme de l'exercice 1 pour que chaque <code>thread_rand</code> g&eacute;n&egrave;re une valeur al&eacute;atoire entre 0 et 10. Pour cela, utilisez&nbsp;la fonction <code>rand()</code> de la fa&ccedil;on suivante:</div>
+<div style="margin-left: 120px;"><span style="font-family: Courier New,Courier,monospace;">random_val = (int) (10*((double)rand())/ RAND_MAX);</span></div>
+<div style="margin-left: 40px; text-align: justify;">La thread <code>thread_rand</code> doit afficher la valeur al&eacute;atoire qu&rsquo;elle a g&eacute;n&eacute;r&eacute; (<code>random_val</code>) et l&rsquo;ajouter &agrave; une variable globale, initialis&eacute;e &agrave; z&eacute;ro par la thread main. &nbsp;<br />
+Apr&egrave;s avoir attendu la terminaison de toutes les threads <code>thread_rand</code>, la thread main&nbsp;affiche la valeur de cette variable globale qui contiendra la somme de toutes les valeurs al&eacute;atoires g&eacute;n&eacute;r&eacute;es.</div>
+<div style="margin-left: 40px;">&nbsp;</div>
+&nbsp; <br />
+<h3>Exercice 3 : Synchronisation</h3>
+<div style="margin-left: 40px;">Modifiez le programme de l'exercice 2 pour que&nbsp; l&rsquo;affichage de la valeur finale ne soit pas faite par la thread main mais par une nouvelle thread, la thread <code>print_thread</code> (cr&eacute;&eacute;e par main). <br />
+Apr&egrave;s sa cr&eacute;ation,&nbsp; la thread <code>print_thread</code> doit se bloquer en attendant que la somme de toutes les valeurs al&eacute;atoires soit compl&eacute;t&eacute;e.&nbsp; La derni&egrave;re <code>thread_rand</code> &agrave; ajouter sa valeur al&eacute;atoire &agrave; la variable globale r&eacute;veille alors <code>print_thread</code> pour qu&rsquo;elle puisse afficher la valeur finale.</div>
+<br />
+<h3>Exercice 4 : D&eacute;tachement des threads</h3>
+<div style="margin-left: 40px; text-align: justify;">En utilisant la fonction <code>pthread_detach</code>, modifiez le programme de l'exercice 3 pour que les threads <code>thread_rand</code> soient d&eacute;tach&eacute;es <span style="font-weight: bold; font-style: italic;">apr&egrave;s leur cr&eacute;ation</span>.<br />
+<br />
+Reprenez ce code une seconde fois, mais cette fois-ci en d&eacute;finissant que les threads <code>thread_rand</code> sont dans l&rsquo;&eacute;tat d&eacute;tach&eacute; <span style="font-weight: bold; font-style: italic;">lors de leur cr&eacute;ation</span>. <br />
+<div style="margin-left: 40px;">(<span style="font-style: italic;">attribut <code>PTHREAD_CREATE_DETACHED</code> d&eacute;fini lors de la cr&eacute;ation des threads</span>)</div>
+</div>
+<br />
+<h3>Exercice 5 : Synchronisation par broadcast</h3>
+<div style="margin-left: 40px; text-align: justify;">Une barri&egrave;re est un m&eacute;canisme de synchronisation. Elle permet &agrave; <code>N</code> threads de prendre rendez-vous en un point donn&eacute; de leur ex&eacute;cution. Quand une des threads atteint la barri&egrave;re, elle reste bloqu&eacute;e jusqu&rsquo;&agrave; ce que toutes les autres arrivent &agrave; la barri&egrave;re. Lorsque les <code>N</code> threads sont arriv&eacute;es &agrave; la barri&egrave;re, chacune des threads peut alors reprendre son ex&eacute;cution.<br />
+<br />
+Programmez la fonction&nbsp; <code>wait_barrier(int N)</code> qui permet &agrave; <code>N</code> threads de se synchroniser sur une barri&egrave;re. Testez votre programme avec la thread suivante&nbsp;:<br />
+<div style="margin-left: 40px;"><code>void* thread_func (void *arg) {<br />
+&nbsp;&nbsp;&nbsp; printf (&quot;avant barriere\n&quot;);<br />
+&nbsp;&nbsp;&nbsp; wait_barrier (NB_THREADS);<br />
+&nbsp;&nbsp;&nbsp; printf (&quot;apr&egrave;s barriere\n&quot;);<br />
+&nbsp;&nbsp;&nbsp; pthread_exit ( (void*)0);<br />
+}</code></div>
+<br />
+En ex&eacute;cutant votre programme avec 2 threads, il devra afficher&nbsp;:<br />
+<div style="margin-left: 40px; font-style: italic;"><tt>avant barri&egrave;re<br />
+avant barri&egrave;re<br />
+apr&egrave;s barri&egrave;re <br />
+apr&egrave;s barri&egrave;re</tt></div>
+En d&rsquo;autres termes,&nbsp; on veut que tous les messages&nbsp; <span style="font-style: italic;">&laquo;&nbsp;<tt>avant barri&egrave;re</tt>&nbsp;&raquo;</span> soient affich&eacute;s avant les messages <span style="font-style: italic;">&laquo;&nbsp;<tt>apr&egrave;s barri&egrave;re</tt>&nbsp;&raquo;</span>.<br />
+&nbsp;</div>
