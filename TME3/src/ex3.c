@@ -10,7 +10,7 @@
 
 void* Producteur(void* arg) {
     int c;
-    while ((c = getchar()) != EOF && c != '\n') {
+    while((c = getchar()) != EOF){
         Push(c);
     }
     return NULL;

@@ -15,6 +15,9 @@ void * func_thread(void * arg){
 
   while(1){
     int c = 1; 
+
+    //On recupere l'index du fichier a traiter
+    //Si il n'y a plus de fichiers a traiter, on se termine
     pthread_mutex_lock(&mutex);
     if(cpt==nbargs){
       pthread_mutex_unlock(&mutex);
@@ -22,20 +25,25 @@ void * func_thread(void * arg){
     }
     i=cpt++;
     pthread_mutex_unlock(&mutex);
+
+    //Ouverture du fichier
     fp1= fopen (names[i], "r");
     fp2= fopen (names[i], "r+");
-    if ((fp1== NULL) || (fp2== NULL)) {
+    if((fp1== NULL) || (fp2== NULL)) {
       perror ("fopen");
       exit (1);
-    }
-    
-    while (c !=EOF) {
+    }    
+
+    //Traitement du fichier
+    while(c!=EOF){
       c=fgetc(fp1);
       if (c!=EOF)
 	fputc(toupper(c),fp2);
     }
-    fclose (fp1);
-    fclose (fp2);
+
+    //Fermeture des fichiers
+    fclose(fp1);
+    fclose(fp2);
   }
   return NULL;
 }
@@ -43,7 +51,9 @@ void * func_thread(void * arg){
 int main (int argc, char ** argv){
   int i;
   pthread_t tid[NB_THREAD];
-  nbargs=argc;  
+  nbargs=argc; 
+
+  //Creation des threads 
   for(i=0;i<NB_THREAD;i++){
     if(pthread_create(&(tid[i]),NULL,func_thread, (void *)argv)!=0){
       fprintf(stderr, "pthread_create error");
@@ -51,11 +61,13 @@ int main (int argc, char ** argv){
     }  
   }
 
+  //Attente de la terminaison des threads
   for(i=0;i<NB_THREAD;i++){
     if(pthread_join(tid[i],NULL)!=0){ 
       fprintf(stderr, "pthread_join error");
       exit(EXIT_FAILURE);
     }
   }
+
   return EXIT_SUCCESS;
 }

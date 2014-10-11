@@ -1,0 +1,70 @@
+=== Participants : 3 ===
+    
+    Maxime Bittan - 3100294
+    Redha Gouicem - 3100161
+    Igor Macanovic- 3261753
+
+=== Fichiers inclus ===
+    
+    [Ex. 1] src/ex1.c
+    	    Programme qui met en majuscule tout les caracteres de tout les
+	    fichiers passes en argument. On cree un thread par fichier.
+    
+    [Ex. 2] src/ex2.c
+	    Meme programme que precedemment, sauf qu'il n'y a plus un thread par
+	    fichier mais NB_THREAD pour tout les fichiers. Un thread peut donc
+	    traiter plusieurs fichiers.
+
+    [Ex. 3,4] include/thread_stack.h
+    	      Header correspondant au fichier src/thread_stack.c. Contient
+	      la declaration des variables utilisees dans celui-ci
+
+    [Ex. 3,4] src/thread_stack.c
+    	      Fichier contenant la definition des fonctions manipulant la pile
+	      definie dans le fichier include/thread_stack.h. 
+
+    [Ex. 3] src/ex3.c
+    	    Programme qui met en oeuvre un consommateur et un producteur.
+
+    [Ex. 4] src/ex4.c
+    	    Même programme que précédemment, sauf qu'il y a plusieurs 
+	    producteurs et plusieurs consommateurs
+            
+    [Ex. 5] src/ex5.c
+    	    Programme qui cree une chaine de NB_THREADS. Une fois tout les
+	    threads crees, la thread principale se met en attente d'un SIGINT.
+	    Une fois le SIGINT reçu, la thread principale ordonne aux autres
+	    threads de se terminer.
+
+    	    
+=== Directives du Makefile ===
+
+    ex1
+	Créé l'exécutable ex1.
+
+    ex2
+	Créé l'exécutable ex2.
+
+    ex3
+	Créé l'exécutable ex3.
+
+    ex4-1
+	Créé l'exécutable ex4. 
+    
+    ex5
+	Créé l'exécutable ex5.
+
+    pack
+	Créé l'archive de soumission.
+
+=== Etat d'avancement ===
+
+    Exercice 1 : OK
+    Exercice 2 : OK
+    Exercice 3 : OK
+    Exercice 4 : OK
+    Exercice 5 : OK    
+ 
+
+=== Réponses ===
+Pas de questions

@@ -1,5 +1,5 @@
-NOM = gouicem
-PRENOM = redha
+NOM = bittan
+PRENOM = maxime
 CC = gcc
 CFLAGS = -Wall -pthread
 SRC = src
@@ -55,6 +55,6 @@ clean:
 pack: clean
 	cd .. && tar czfv $(NOM)-$(PRENOM).mi014.2.tgz TME2
 
-.PHONY: all clean pack ex1 ex2 ex3 ex4
+.PHONY: all clean pack ex1 ex2 ex3 ex4 ex5
 
 
