@@ -7,21 +7,21 @@
 === Fichiers inclus ===
     
     [Ex. 1] src/ex1.c
-    	    Programme qui met en majuscule tout les caracteres de tout les
-	    fichiers passes en argument. On cree un thread par fichier.
+    	    Programme qui met en majuscule tout les caractères de tout les
+	    fichiers passés en argument. On créé un thread par fichier.
     
     [Ex. 2] src/ex2.c
-	    Meme programme que precedemment, sauf qu'il n'y a plus un thread par
+	    Même programme que précédemment, sauf qu'il n'y a plus un thread par
 	    fichier mais NB_THREAD pour tout les fichiers. Un thread peut donc
 	    traiter plusieurs fichiers.
 
     [Ex. 3,4] include/thread_stack.h
     	      Header correspondant au fichier src/thread_stack.c. Contient
-	      la declaration des variables utilisees dans celui-ci
+	      la déclaration des variables utilisées dans celui-ci.
 
     [Ex. 3,4] src/thread_stack.c
-    	      Fichier contenant la definition des fonctions manipulant la pile
-	      definie dans le fichier include/thread_stack.h. 
+    	      Fichier contenant la définition des fonctions manipulant la pile
+	      définie dans le fichier include/thread_stack.h. 
 
     [Ex. 3] src/ex3.c
     	    Programme qui met en oeuvre un consommateur et un producteur.
@@ -31,8 +31,8 @@
 	    producteurs et plusieurs consommateurs
             
     [Ex. 5] src/ex5.c
-    	    Programme qui cree une chaine de NB_THREADS. Une fois tout les
-	    threads crees, la thread principale se met en attente d'un SIGINT.
+    	    Programme qui créé une chaine de NB_THREADS. Une fois tout les
+	    threads créés, la thread principale se met en attente d'un SIGINT.
 	    Une fois le SIGINT reçu, la thread principale ordonne aux autres
 	    threads de se terminer.
 
@@ -48,7 +48,7 @@
     ex3
 	Créé l'exécutable ex3.
 
-    ex4-1
+    ex4
 	Créé l'exécutable ex4. 
     
     ex5
@@ -63,8 +63,8 @@
     Exercice 2 : OK
     Exercice 3 : OK
     Exercice 4 : OK
-    Exercice 5 : OK    
+    Exercice 5 : OK
  
 
 === Réponses ===
-Pas de questions
+Pas de question.
