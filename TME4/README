@@ -1,0 +1,81 @@
+=== Participants : 3 ===
+    
+    Maxime Bittan - 3100294
+    Redha Gouicem - 3100161
+    Igor Macanovic- 3261753
+
+=== Fichiers inclus ===
+    
+    [Ex. 1] src/ex1.c
+    	    Programme qui cree N processus qui generent une valeur aleatoire et
+	    la mettent dans une file de message. Le processus principal
+	    recupere tout les messages de la file, fait la somme et l'affiche.
+    
+    [Ex. 2] src/ex2.c
+	    Même programme que précédemment, sauf que les fils ecrivent leurs
+	    valeurs aleatoire dans une segment de memoire partagee
+
+    [Ex. 3] src/ex3.c
+    	    Programme qui cree N fils, et une file de message par fils. Chaque
+	    fils transmet un nombre aleatoire au pere (dans une file de
+	    messages prevue a cet effet), indiquant le nombre de messages qu'il
+	    veut recevoir. Le pere genere N messages (qui sont des nombres
+	    aleatoires), et les envois au fils concerne. Le fils lit tout
+	    les messages et fait la somme des entiers contenu dans ceux ci.
+
+    [Ex. 4] src/ex4.c
+    	    Même programme que précédemment, sauf qu'il n'y a plus qu'une seule
+	    file de message
+            
+    [Ex. 5] src/ex5.c
+    	    Programme qui implante une barriere de N processus, via des
+	    semaphores systeme V.
+
+    [Ex. 6] include/stack.h
+    	    Header correspondant au fichier src/stack.c. Contient
+	    la déclaration des variables utilisées dans celui-ci.
+
+    [Ex. 6] src/stack.c
+    	    Fichier contenant la définition des fonctions manipulant la pile
+	    définie dans le fichier include/stack.h. 
+
+    [Ex. 6] src/ex6.c
+    	    Programme qui met en oeuvre un certain nombre de producteurs et de
+	    consommateurs, synchronises par des IPC systeme V.
+ 
+
+    	    
+=== Directives du Makefile ===
+
+    ex1
+	Créé l'exécutable ex1.
+
+    ex2
+	Créé l'exécutable ex2.
+
+    ex3
+	Créé l'exécutable ex3.
+
+    ex4
+	Créé l'exécutable ex4. 
+    
+    ex5
+	Créé l'exécutable ex5.
+ 
+    ex6
+	Créé l'exécutable ex6.
+
+    pack
+	Créé l'archive de soumission.
+
+=== Etat d'avancement ===
+
+    Exercice 1 : OK
+    Exercice 2 : OK
+    Exercice 3 : OK
+    Exercice 4 : OK
+    Exercice 5 : OK
+    Exercice 6 : OK
+
+=== Réponses ===
+Pas de question.
