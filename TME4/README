@@ -7,29 +7,29 @@
 === Fichiers inclus ===
     
     [Ex. 1] src/ex1.c
-    	    Programme qui cree N processus qui generent une valeur aleatoire et
-	    la mettent dans une file de message. Le processus principal
-	    recupere tout les messages de la file, fait la somme et l'affiche.
+    	    Programme qui créé N processus qui génèrent une valeur aléatoire et
+	    la mettent dans une file de messages. Le processus principal
+	    récupère tout les messages de la file, fait la somme et l'affiche.
     
     [Ex. 2] src/ex2.c
-	    Même programme que précédemment, sauf que les fils ecrivent leurs
-	    valeurs aleatoire dans une segment de memoire partagee
+	    Même programme que précédemment, sauf que les fils écrivent leur
+	    valeur aléatoire dans un segment de mémoire partagée.
 
     [Ex. 3] src/ex3.c
-    	    Programme qui cree N fils, et une file de message par fils. Chaque
-	    fils transmet un nombre aleatoire au pere (dans une file de
-	    messages prevue a cet effet), indiquant le nombre de messages qu'il
-	    veut recevoir. Le pere genere N messages (qui sont des nombres
-	    aleatoires), et les envois au fils concerne. Le fils lit tout
-	    les messages et fait la somme des entiers contenu dans ceux ci.
+    	    Programme qui créé N fils, et une file de message par fils. Chaque
+	    fils transmet un nombre aléatoire au père (dans une file de
+	    messages prévue à cet effet), indiquant le nombre de messages qu'il
+	    veut recevoir. Le père génère N messages (qui sont des nombres
+	    aléatoires), et les envoit au fils concerné. Le fils lit tout
+	    les messages et fait la somme des entiers contenus dans ceux ci.
 
     [Ex. 4] src/ex4.c
     	    Même programme que précédemment, sauf qu'il n'y a plus qu'une seule
-	    file de message
+	    file de messages.
             
     [Ex. 5] src/ex5.c
-    	    Programme qui implante une barriere de N processus, via des
-	    semaphores systeme V.
+    	    Programme qui implante une barrière de N processus, via des
+	    sémaphores System V.
 
     [Ex. 6] include/stack.h
     	    Header correspondant au fichier src/stack.c. Contient
@@ -41,7 +41,7 @@
 
     [Ex. 6] src/ex6.c
     	    Programme qui met en oeuvre un certain nombre de producteurs et de
-	    consommateurs, synchronises par des IPC systeme V.
+	    consommateurs, synchronisés par des IPC System V.
  
 
     	    
