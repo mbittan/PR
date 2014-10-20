@@ -20,6 +20,7 @@ int main(int argc, char ** argv){
   int r;
   int* shm;
  
+  //Creation de la memoire partagee
   if((shmid=shmget(key, N*sizeof(int), 0666 | IPC_CREAT))==-1){
     perror("shmget");
     exit(EXIT_FAILURE);
@@ -35,23 +36,30 @@ int main(int argc, char ** argv){
       exit(EXIT_FAILURE);
     }else if(pid==0){
       srand(time(NULL)+i);
+
+      //Generation de la valeur aleatoire
       r=(int)(1000*(float)rand()/RAND_MAX);
       printf("Fils %d : Ecriture de la valeur %d\n", i+1, r);
+      
+      //Ecriture de la valeur dans la memoire partagee
       shm[i] = r;
       shmdt(shm);
       exit(EXIT_SUCCESS);
     } 
   }
 
+  //Attente de la fin de tout les fils
   for(i=0;i<N;i++){
     wait(NULL);
   }
 
+  //Somme
   for(i=0;i<N;i++){
     somme+=shm[i];
   }
   printf("Somme : %d\n",somme);
 
+  //Suppression de la memoire partagee
   shmdt(shm);
   if(shmctl(shmid, IPC_RMID, 0)==-1){
     perror("shmctl");

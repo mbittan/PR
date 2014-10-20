@@ -14,6 +14,7 @@ struct msgbuf {
   long mtype;
   int mtext;
 };
+
 int main(int argc, char ** argv){
   int i,j;
   pid_t pid;
@@ -21,7 +22,9 @@ int main(int argc, char ** argv){
   int mqdes[N+1];
   int somme=0;
   struct msgbuf msg, msg2;
-  
+
+
+  //Creation de toute les files de messages  
   for(i=0; i<N+1; i++){
     key = ftok("/tmp",42+i);
     if((mqdes[i]=msgget(key, 0666 | IPC_CREAT))==-1){
@@ -30,6 +33,7 @@ int main(int argc, char ** argv){
     }
   }
 
+  //Creation des fils
   for(i=0;i<N;i++){
     if((pid=fork())==-1){
       perror("fork");
@@ -39,10 +43,14 @@ int main(int argc, char ** argv){
       msg.mtype=i+1;
       msg.mtext=(int)((N*(float)rand()/RAND_MAX)+1);
       printf("Fils %d : Envoie de la valeur %d a son pere\n", i+1, msg.mtext);
+
+      //On demande au pere de recevoir un certain nombre de messages
       if(msgsnd(mqdes[N], &msg, sizeof(int),0)==-1){
 	perror("msgsnd fils");
 	exit(EXIT_FAILURE);
       }
+
+      //On recupere les messages envoyes par le pere
       for(j=msg.mtext; j>0; j--){
 	if(msgrcv(mqdes[i], &msg2, sizeof(int),0,0)==-1){
 	  perror("msgrcv fils");
@@ -55,13 +63,17 @@ int main(int argc, char ** argv){
     }
   }
 
+
   for(i=0;i<N;i++){
+    //Pour chaque fils on recupere le nombre de messages qu'il veut recevoir
     if(msgrcv(mqdes[N],&msg2,sizeof(int),0,0)==-1){
       perror("msgrcv pere");
       exit(EXIT_FAILURE);
     }
     msg.mtype=42;
     printf("Fils %ld veut %d messages \n", msg2.mtype, msg2.mtext);
+
+    //on ecrit dans la file de message du fils le nombre de messages indique
     for(j=0; j<msg2.mtext; j++){
       msg.mtext = (int)(100*(float)rand()/RAND_MAX);
       printf("Pere envoie %d a fils %ld\n", msg.mtext, msg2.mtype);
@@ -72,10 +84,12 @@ int main(int argc, char ** argv){
     }
   }
   
+  //attente de la fin des fils
   for(i=0;i<N;i++){
     wait(NULL);
   }
 
+  //Destruction des files
   for(i=0; i<N+1; i++){
     if(msgctl(mqdes[i], IPC_RMID, 0)==-1){
       perror("msgctl");
