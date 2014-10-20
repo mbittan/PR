@@ -9,7 +9,7 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: directories ex1 ex2 ex3 ex4 ex5
+all: directories ex1 ex2 ex3 ex4 ex5 ex6
 
 directories: $(OBJ) $(BIN) $(LIB)
 
@@ -32,6 +32,8 @@ ex4: $(BIN)/ex4
 
 ex5: $(BIN)/ex5
 
+ex6: $(BIN)/ex6
+
 $(BIN)/ex1: $(OBJ)/ex1.o
 	$(CC) $(CFLAGS) -o $@ $^ 
 
@@ -45,6 +47,9 @@ $(BIN)/ex4 : $(OBJ)/ex4.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BIN)/ex5 :$(OBJ)/ex5.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BIN)/ex6 :$(OBJ)/ex6.o $(OBJ)/stack.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(OBJ)/%.o: $(SRC)/%.c
