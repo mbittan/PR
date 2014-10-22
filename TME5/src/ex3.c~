@@ -1,0 +1,18 @@
+#define _XOPEN_SOURCE 777
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <time.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <wait.h>
+#include <semaphore.h>
+   
+#define N 5
+
+int main(int argc, char ** argv){
+  
+  return EXIT_SUCCESS;
+}

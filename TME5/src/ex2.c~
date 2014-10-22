@@ -1,0 +1,23 @@
+#define _XOPEN_SOURCE 777
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <time.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <wait.h>
+   
+#define N 5
+
+void process (int NB_PCS) {
+    printf ("avant barrière");
+    wait_barrier (NB_PCS);
+    printf ("après barrière");
+    exit (0);
+}
+
+int main() {
+
+}
