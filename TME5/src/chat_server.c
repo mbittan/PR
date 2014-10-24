@@ -9,13 +9,8 @@
 #include <fcntl.h>
 #include <wait.h>
 #include <semaphore.h>
-   
-#define N 5
 
-struct request {
-    long type;
-    char content[1024];
-}
+#include "chat.h"
 
 int main(int argc, char ** argv){
   if(argc!=2){
