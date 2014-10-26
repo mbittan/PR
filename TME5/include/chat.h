@@ -3,6 +3,7 @@
 
 #define BUFSZ 1024
 
+#define EMPTY -1
 #define CONNECT 0
 #define DIFF 1
 #define DISCONNECT 2

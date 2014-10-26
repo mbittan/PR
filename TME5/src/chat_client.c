@@ -12,6 +12,7 @@
 #include <wait.h>
 #include <string.h>
 #include <semaphore.h>
+#include <errno.h>
 
 #include "chat.h"
 
@@ -23,11 +24,23 @@ shm_t *servershm;
 char buf[BUFSZ];
 
 void echo_loop() {
-  int c;
+  int c, flags;
+
+  /*******  Make stdin non-blocking  *******/
+
+  if(((flags = fcntl(STDIN_FILENO, F_GETFL, 0)) == -1) ||
+     (fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK)) == -1){
+    perror("fcntl");
+    exit(EXIT_FAILURE);
+  }
 
   /**********  Connect to server ***********/
 
   sem_wait(&servershm->sem);
+  while((servershm->msg).type != EMPTY){
+    sem_post(&servershm->sem);
+    sem_wait(&servershm->sem);
+  }
   (servershm->msg).type = CONNECT;
   strncpy((servershm->msg).content, clientid, BUFSZ);
   sem_post(&servershm->sem);
@@ -35,23 +48,34 @@ void echo_loop() {
   /**********  Send/receive loop  **********/
 
   while (1) {
-    if((c = read(STDIN_FILENO, buf, BUFSZ)) == -1){
+    // check stdin for message to send
+    if(((c = read(STDIN_FILENO, buf, BUFSZ)) == -1) && errno != EAGAIN){
       perror("read");
       exit(EXIT_FAILURE);
     }
     if(c>0){
       sem_wait(&servershm->sem);
+      while((servershm->msg).type != EMPTY){
+	sem_post(&servershm->sem);
+	sem_wait(&servershm->sem);
+      }
+      printf("writing in server shm\n");
       (servershm->msg).type = DIFF;
       strncpy((servershm->msg).content, buf, BUFSZ);
       sem_post(&servershm->sem);
     }
-    if((shm->msg).type == 1){
+    // check shm for message received and print or disconnect
+    sem_wait(&(shm->sem));
+    if((shm->msg).type == DIFF){
       printf("%s\n", (shm->msg).content);
-      (shm->msg).type = -1;
+      (shm->msg).type = EMPTY;
     }
-    if((shm->msg).type == 2){
+    if((shm->msg).type == DISCONNECT){
       kill(getpid(), SIGUSR1);
     }
+    sem_post(&(shm->sem));
+    //sleep before re-check
+    printf("sleep\n");
     sleep(1);
   }
 }
@@ -60,6 +84,10 @@ void sighandler(int sig){
   if(sig != SIGUSR1){
   /*********  Send disconnect message to server  *********/
     sem_wait(&servershm->sem);
+    while((servershm->msg).type != EMPTY){
+      sem_post(&servershm->sem);
+      sem_wait(&servershm->sem);
+    }
     (servershm->msg).type = DISCONNECT;
     strcpy((servershm->msg).content, clientid);
     sem_post(&servershm->sem);
@@ -95,7 +123,7 @@ int main(int argc, char ** argv){
 
   if(argc!=3){
     fprintf(stderr,"Nombre d'arguments incorrect\n");
-    fprintf(stderr,"Usage : %s <client_id> <server_id>",argv[0]);
+    fprintf(stderr,"Usage : %s <client_id> <server_id>\n",argv[0]);
     exit(EXIT_FAILURE);
   }
   
@@ -123,6 +151,8 @@ int main(int argc, char ** argv){
     exit(EXIT_FAILURE);
   }
 
+  (shm->msg).type = EMPTY;
+
   /*****************  Initializing semaphore  *****************/
 
   if(sem_init(&(shm->sem), 1, 1) == -1){
@@ -142,6 +172,7 @@ int main(int argc, char ** argv){
     perror("mmap server");
     exit(EXIT_FAILURE);
   }
+  printf("%s\n", (servershm->msg).content);
 
   /******************  Changing signal handler  ***************/
 
