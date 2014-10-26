@@ -27,7 +27,7 @@ ex1: $(BIN)/ex1
 
 ex2: $(BIN)/ex2
 
-ex3: $(BIN)/ex3
+ex3: $(BIN)/chat_client $(BIN)/chat_server
 
 ex4: $(BIN)/ex4
 
@@ -35,22 +35,25 @@ ex5: $(BIN)/ex5
 
 ex6: $(BIN)/ex6
 
-$(BIN)/ex1: $(OBJ)/ex1.o
-	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
+#$(BIN)/ex1: $(OBJ)/ex1.o
+#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
 
-$(BIN)/ex2: $(OBJ)/ex2.o
-	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
+#$(BIN)/ex2: $(OBJ)/ex2.o
+#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
 
-$(BIN)/ex3 : $(OBJ)/ex3.o
-	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
+#$(BIN)/ex3 : $(OBJ)/ex3.o
+#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
 
-$(BIN)/ex4 : $(OBJ)/ex4.o
-	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
+#$(BIN)/ex4 : $(OBJ)/ex4.o
+#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
 
-$(BIN)/ex5 :$(OBJ)/ex5.o
-	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
+#$(BIN)/ex5 :$(OBJ)/ex5.o
+#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
 
-$(BIN)/ex6 :$(OBJ)/ex6.o
+#$(BIN)/ex6 :$(OBJ)/ex6.o
+#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
+
+$(BIN)/%: $(OBJ)/%.o
 	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
 
 $(OBJ)/%.o: $(SRC)/%.c
