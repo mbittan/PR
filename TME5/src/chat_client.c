@@ -59,9 +59,10 @@ void echo_loop() {
 	sem_post(&servershm->sem);
 	sem_wait(&servershm->sem);
       }
-      printf("writing in server shm\n");
+      printf("writing in server shm : '");
       (servershm->msg).type = DIFF;
       strncpy((servershm->msg).content, buf, BUFSZ);
+      printf("%s\n", (servershm->msg).content);
       sem_post(&servershm->sem);
     }
     // check shm for message received and print or disconnect

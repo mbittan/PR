@@ -31,11 +31,11 @@ void echo_loop() {
     printf("bla\n");
     // if message to broadcast, search for receivers and send
     if((shm[0]->msg).type == DIFF){
-      printf("Emitting : %s\n", (shm[i]->msg).content);
+      printf("Emitting : %s\n", (shm[0]->msg).content);
       for(i=1; i<MAXCLIENTS+1; i++){
 	if(shmnames[i][0] != '\0') {
 	  sem_wait(&(shm[i]->sem));
-	  while((shm[0]->msg).type != EMPTY){
+	  while((shm[i]->msg).type != EMPTY){
 	    sem_post(&(shm[i]->sem));
 	    //printf("yo\n");
 	    sem_wait(&(shm[i]->sem));
@@ -99,8 +99,8 @@ void echo_loop() {
     // else if disconnect message, remove from receivers and close shm
     else if((shm[0]->msg).type == DISCONNECT){
       for(i=1; i<MAXCLIENTS+1; i++){
-	printf("Disconnecting %s\n", (shm[0]->msg).content);
 	if(strncmp((shm[0]->msg).content, shmnames[i], BUFSZ) == 0){
+	  printf("Disconnecting %s\n", (shm[0]->msg).content);
 	  if(munmap(shm[i], sizeof(shm_t)) == -1){
 	    perror("munmap");
 	    exit(EXIT_FAILURE);
