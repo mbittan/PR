@@ -2,7 +2,7 @@ NOM = bittan
 PRENOM = maxime
 NUMTME = 5
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 STUFF = -lrt -pthread
 SRC = src
 LIB = lib
@@ -10,7 +10,7 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: directories ex1 ex2 ex3 ex4 ex5 ex6
+all: directories ex1 ex2 ex3
 
 directories: $(OBJ) $(BIN) $(LIB)
 
@@ -34,24 +34,6 @@ ex4: $(BIN)/ex4
 ex5: $(BIN)/ex5
 
 ex6: $(BIN)/ex6
-
-#$(BIN)/ex1: $(OBJ)/ex1.o
-#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
-
-#$(BIN)/ex2: $(OBJ)/ex2.o
-#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
-
-#$(BIN)/ex3 : $(OBJ)/ex3.o
-#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
-
-#$(BIN)/ex4 : $(OBJ)/ex4.o
-#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
-
-#$(BIN)/ex5 :$(OBJ)/ex5.o
-#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
-
-#$(BIN)/ex6 :$(OBJ)/ex6.o
-#	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
 
 $(BIN)/%: $(OBJ)/%.o
 	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
