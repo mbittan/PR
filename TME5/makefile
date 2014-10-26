@@ -10,7 +10,7 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: directories ex1 ex2 ex3
+all: directories ex1 ex2 ex3 ex4
 
 directories: $(OBJ) $(BIN) $(LIB)
 
@@ -25,15 +25,11 @@ $(LIB):
 
 ex1: $(BIN)/ex1
 
-ex2: $(BIN)/ex2
+ex2: $(BIN)/ex2_aveccpt $(BIN)/ex2_sanscpt
 
 ex3: $(BIN)/chat_client $(BIN)/chat_server
 
 ex4: $(BIN)/ex4
-
-ex5: $(BIN)/ex5
-
-ex6: $(BIN)/ex6
 
 $(BIN)/%: $(OBJ)/%.o
 	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
@@ -47,6 +43,6 @@ clean:
 pack: clean
 	cd .. && tar czfv $(NOM)-$(PRENOM).mi014.$(NUMTME).tgz TME$(NUMTME)
 
-.PHONY: all clean pack ex1 ex2 ex3 ex4 ex5
+.PHONY: all clean pack ex1 ex2 ex3 ex4
 
 
