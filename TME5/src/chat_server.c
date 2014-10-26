@@ -22,13 +22,12 @@ shm_t *shm[MAXCLIENTS+1];
 
 void echo_loop() {
   int i, full_shm_id;
-  char string[BUFSZ+7];
+  char string[BUFSZ+7], s2[BUFSZ+7];
   shm_t *full_shm;
 
   while(1){
     // checking messages
     sem_wait(&(shm[0]->sem));
-    printf("bla\n");
     // if message to broadcast, search for receivers and send
     if((shm[0]->msg).type == DIFF){
       printf("Emitting : %s\n", (shm[0]->msg).content);
@@ -37,12 +36,10 @@ void echo_loop() {
 	  sem_wait(&(shm[i]->sem));
 	  while((shm[i]->msg).type != EMPTY){
 	    sem_post(&(shm[i]->sem));
-	    //printf("yo\n");
 	    sem_wait(&(shm[i]->sem));
 	  }
-	  printf("To : i=%d; %s\n", i, shmnames[i]);
 	  (shm[i]->msg).type = DIFF;
-	  strncpy((shm[i]->msg).content, (shm[0]->msg).content, BUFSZ);
+	  strcpy((shm[i]->msg).content, (shm[0]->msg).content);
 	  sem_post(&(shm[i]->sem));
 	}
       }
@@ -88,28 +85,23 @@ void echo_loop() {
 	    perror("munmap connect full");
 	    exit(EXIT_FAILURE);
 	  }
-	  if(shm_unlink(string) == -1){
-	    perror("shm_unlink connect full");
-	    exit(EXIT_FAILURE);
-	  }
       }
       else
 	printf("Connected %s\n", shmnames[i]);
     }
     // else if disconnect message, remove from receivers and close shm
     else if((shm[0]->msg).type == DISCONNECT){
+      printf("Disconnecting %s ...\n", (shm[0]->msg).content);
+      sprintf(string, "%s", (shm[0]->msg).content);
       for(i=1; i<MAXCLIENTS+1; i++){
-	if(strncmp((shm[0]->msg).content, shmnames[i], BUFSZ) == 0){
-	  printf("Disconnecting %s\n", (shm[0]->msg).content);
+	sprintf(s2, "%s", shmnames[i]);
+	if(strcmp(string, s2) == 0){
 	  if(munmap(shm[i], sizeof(shm_t)) == -1){
 	    perror("munmap");
 	    exit(EXIT_FAILURE);
 	  }
-	  if(shm_unlink(shmnames[i]) == -1){
-	    perror("shm_unlink");
-	    exit(EXIT_FAILURE);
-	  }
 	  shmnames[i][0] = '\0';
+	  printf("%s disconnected.\n", (shm[0]->msg).content);
 	  break;
 	}
       }
@@ -151,12 +143,13 @@ void sighandler(int sig){
 	perror("munmap");
 	exit(EXIT_FAILURE);
       }
-      if(shm_unlink(shmnames[i]) == -1){
-	perror("shm_unlink");
-	exit(EXIT_FAILURE);
-      }
     }
   }
+  if(shm_unlink(shmnames[0]) == -1){
+    perror("shm_unlink");
+    exit(EXIT_FAILURE);
+  }
+  exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char ** argv){
@@ -192,10 +185,6 @@ int main(int argc, char ** argv){
   }
 
   (shm[0]->msg).type = EMPTY;
-  (shm[0]->msg).content[0] = 'a';
-  (shm[0]->msg).content[1] = 'e';
-  (shm[0]->msg).content[2] = 'i';
-  (shm[0]->msg).content[3] = '\0';
   for(i=1; i<MAXCLIENTS+1; i++)
     shmnames[i][0] = '\0';
 
@@ -217,7 +206,6 @@ int main(int argc, char ** argv){
   /*********************  Infinite loop  **********************/
 
   echo_loop();
-
 
   return EXIT_SUCCESS;
 }

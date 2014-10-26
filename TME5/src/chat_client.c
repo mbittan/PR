@@ -23,6 +23,22 @@ shm_t *shm;
 shm_t *servershm;
 char buf[BUFSZ];
 
+void send_message(shm_t *dest, long type, char *src){
+  int i;
+  
+  sem_wait(&(dest->sem));
+  while((dest->msg).type != EMPTY){
+    sem_post(&(dest->sem));
+    sem_wait(&(dest->sem));
+  }
+  (dest->msg).type = type;
+  for(i=0; i<BUFSZ-1 && src[i] != '\0' &&  src[i] != '\n'; i++)
+    (dest->msg).content[i] = src[i];
+  for( ; i<BUFSZ; i++)
+    (dest->msg).content[i] = '\0';
+  sem_post(&(dest->sem));
+}
+
 void echo_loop() {
   int c, flags;
 
@@ -36,14 +52,7 @@ void echo_loop() {
 
   /**********  Connect to server ***********/
 
-  sem_wait(&servershm->sem);
-  while((servershm->msg).type != EMPTY){
-    sem_post(&servershm->sem);
-    sem_wait(&servershm->sem);
-  }
-  (servershm->msg).type = CONNECT;
-  strncpy((servershm->msg).content, clientid, BUFSZ);
-  sem_post(&servershm->sem);
+  send_message(servershm, CONNECT, clientid);
 
   /**********  Send/receive loop  **********/
 
@@ -54,16 +63,7 @@ void echo_loop() {
       exit(EXIT_FAILURE);
     }
     if(c>0){
-      sem_wait(&servershm->sem);
-      while((servershm->msg).type != EMPTY){
-	sem_post(&servershm->sem);
-	sem_wait(&servershm->sem);
-      }
-      printf("writing in server shm : '");
-      (servershm->msg).type = DIFF;
-      strncpy((servershm->msg).content, buf, BUFSZ);
-      printf("%s\n", (servershm->msg).content);
-      sem_post(&servershm->sem);
+      send_message(servershm, DIFF, buf);
     }
     // check shm for message received and print or disconnect
     sem_wait(&(shm->sem));
@@ -76,7 +76,6 @@ void echo_loop() {
     }
     sem_post(&(shm->sem));
     //sleep before re-check
-    printf("sleep\n");
     sleep(1);
   }
 }
@@ -84,14 +83,10 @@ void echo_loop() {
 void sighandler(int sig){
   if(sig != SIGUSR1){
   /*********  Send disconnect message to server  *********/
-    sem_wait(&servershm->sem);
-    while((servershm->msg).type != EMPTY){
-      sem_post(&servershm->sem);
-      sem_wait(&servershm->sem);
-    }
-    (servershm->msg).type = DISCONNECT;
-    strcpy((servershm->msg).content, clientid);
-    sem_post(&servershm->sem);
+
+    printf("Disconnecting from server...\n");
+    send_message(servershm, DISCONNECT, clientshmname);
+    printf("Disconnected from server.\n");
   }
 
   /*****************  Closing semaphore  *****************/
@@ -100,6 +95,7 @@ void sighandler(int sig){
     perror("sem_destroy");
     exit(EXIT_FAILURE);
   }
+  printf("Semaphore destroyed.\n");
 
   /***********  Closing shared memory segment  ***********/
 
@@ -108,13 +104,15 @@ void sighandler(int sig){
     perror("munmap");
     exit(EXIT_FAILURE);
   }
+  printf("SHM unmapped.\n");
 
-  if((shm_unlink(clientshmname) == -1) ||
-     (shm_unlink(servershmname) == -1)){
+  if(shm_unlink(clientshmname) == -1){
     perror("shm_unlink");
     exit(EXIT_FAILURE);
   }
-  
+  printf("SHM unlinked.\n");
+
+  exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char ** argv){
@@ -173,7 +171,6 @@ int main(int argc, char ** argv){
     perror("mmap server");
     exit(EXIT_FAILURE);
   }
-  printf("%s\n", (servershm->msg).content);
 
   /******************  Changing signal handler  ***************/
 
@@ -187,7 +184,6 @@ int main(int argc, char ** argv){
   /*********************  Infinite loop  **********************/
 
   echo_loop();
-
 
   return EXIT_SUCCESS;
 }
