@@ -1,0 +1,64 @@
+=== Participants : 3 ===
+    
+    Maxime Bittan - 3100294
+    Redha Gouicem - 3100161
+    Igor Macanovic- 3261753
+
+=== Fichiers inclus ===
+    
+    [Ex. 1] src/ex1.c
+    	    Programme qui créé N processus qui génèrent une valeur aléatoire et
+	    la mettent dans segment de memoire partagee. Le processus principal
+	    attend la fin de ses fils et fait la somme des valeur generees.
+    
+    [Ex. 2] src/ex2_aveccpt.c
+    	    Programme qui implante une barriere de N processus avec un compteur.
+    
+    [Ex. 2] src/ex2_sanscpt.c
+	    Même programme que précédemment, sauf que la synchronisation entre
+	    les processus se fait sans compteur.
+
+    [Ex. 3] src/chat_client.c
+    [Ex. 3] src/chat_server.c
+    [Ex. 3] include/chat.h
+
+    [Ex. 4] src/ex4.c
+    	    Programme qui implante un diner de N philosophes, sans interblocage.
+
+    	    
+=== Directives du Makefile ===
+
+    ex1
+	Créé l'exécutable ex1.
+
+    ex2
+	Créé l'exécutable ex2_aveccpt et ex2_sanscpt.
+
+    ex3
+	Créé l'exécutable chat_client et chat_server.
+
+    ex4
+	Créé l'exécutable ex4. 
+ 
+    pack
+	Créé l'archive de soumission.
+
+=== Etat d'avancement ===
+
+    Exercice 1 : OK
+    Exercice 2 : OK
+    Exercice 3 : OK
+    Exercice 4 : OK
+
+=== Réponses ===
+
+    [Ex. 2]
+    	 Il est effectivement possible d'implanter une barriere de N processus
+	 sans compteur (voir fichier ex2_sanscpt.c).
+
+    [Ex. 4]
+    	 Si tout les philosophes saisissent leur baguette de gauche au meme 
+	 moment, tout les philosophes vont vouloir prendre leur baguette droite.
+	 Cependant, leur baguette droite est la baguette gauche de leur voisin !
+	 Donc, chaque philosophe va attendre son voisin, ce qui mene bien
+	 entendu a un interblocage !
