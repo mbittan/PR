@@ -19,8 +19,13 @@
 	    les processus se fait sans compteur.
 
     [Ex. 3] src/chat_client.c
+    	    Client de chat fonctionnant par segments de mémoire partagés.
+
     [Ex. 3] src/chat_server.c
+    	    Serveur de chat fonctionnant par segments de mémoire partagés.
+
     [Ex. 3] include/chat.h
+    	    Contient les structures de mémoire partagée utilisées par le chat.
 
     [Ex. 4] src/ex4.c
     	    Programme qui implante un diner de N philosophes, sans interblocage.
