@@ -39,6 +39,7 @@ $(OBJ)/%.o: $(SRC)/%.c
 
 clean:
 	rm -rf $(BIN) $(OBJ) $(LIB) $(SRC)/*~ $(INC)/*~
+	rm -rf $(SRC)/*# $(INC)/*# $(SRC)/.#* $(INC)/.#*
 
 pack: clean
 	cd .. && tar czfv $(NOM)-$(PRENOM).mi014.$(NUMTME).tgz TME$(NUMTME)
