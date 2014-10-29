@@ -1,0 +1,76 @@
+=== Participants : 3 ===
+    
+    Maxime Bittan - 3100294
+    Redha Gouicem - 3100161
+    Igor Macanovic- 3261753
+
+=== Fichiers inclus ===
+    
+    [Ex. 1] src/ex1.c
+    	    Programme qui créé N processus qui génèrent une valeur aléatoire et
+	    la mettent dans segment de memoire partagee. Le processus principal
+	    attend la fin de ses fils et fait la somme des valeur generees.
+    
+    [Ex. 2] src/ex2_aveccpt.c
+    	    Programme qui implante une barriere de N processus avec un compteur.
+    
+    [Ex. 2] src/ex2_sanscpt.c
+	    Même programme que précédemment, sauf que la synchronisation entre
+	    les processus se fait sans compteur.
+
+    [Ex. 3] src/chat_client.c
+    	    Client de chat fonctionnant par segments de mémoire partagés.
+
+    [Ex. 3] src/chat_server.c
+    	    Serveur de chat fonctionnant par segments de mémoire partagés.
+
+    [Ex. 3] include/chat.h
+    	    Contient les structures de mémoire partagée utilisées par le chat.
+
+    [Ex. 4] src/ex4.c
+    	    Programme qui implante un diner de N philosophes, sans interblocage.
+
+    	    
+=== Directives du Makefile ===
+
+    ex1
+	Créé l'exécutable ex1.
+
+    ex2
+	Créé l'exécutable ex2_aveccpt et ex2_sanscpt.
+
+    ex3
+	Créé l'exécutable chat_client et chat_server.
+
+    ex4
+	Créé l'exécutable ex4. 
+ 
+    pack
+	Créé l'archive de soumission.
+
+=== Etat d'avancement ===
+
+    Exercice 1 : OK
+    Exercice 2 : OK
+    Exercice 3 : OK
+    Exercice 4 : OK
+
+=== Réponses ===
+
+    [Ex. 1]
+    	 Contenus possibles :  
+	   A B C D E F : fghie123
+	   A B D C E F : fghie
+	   A B D E C F : 45hie123
+	   A B D E F C : 45hie123
+	   A D B C E F : 453fghi
+	   A D B E C F : 453fghi
+	   A D B E F C : 453fghi
+	   A D E B F C : 45123hi
+	   A D E B C F : 45123hi
+	   A D E F B C : 45hi123
+
+
+!(stat==-1 && errno==ENOENT)
+!(stat==-1) || !(errno==ENOENT)
+stat !=-1 || errno!= ENOENT
