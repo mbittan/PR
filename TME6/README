@@ -7,41 +7,41 @@
 === Fichiers inclus ===
     
     [Ex. 1] src/ex1.c
-    	    Meme programme que celui de l'enoncé, sauf que le fichier produit
-	    contient toujours 8 caracteres.
+    	    Même programme que celui de l'énoncé, sauf que le fichier produit
+	    contient toujours 8 caractères.
     
     [Ex. 2] src/mycp.c
-    	    Programme qui prends en parametre 2 nom de fichier, et copie le
+    	    Programme qui prends en paramètres 2 noms de fichiers, et copie le
 	    contenu du premier dans le second.
     
     [Ex. 3] src/ex3.c
-    	    Meme programme que l'exercice precedent, sauf qu'au lieu de lire le
-	    contenu du premier fichier, on le mappe en memoire. La copie du
-	    contenu du fichier se fait alors en une seule operation d'ecriture.
+    	    Même programme que l'exercice précédent, sauf qu'au lieu de lire le
+	    contenu du premier fichier, on le mappe en mémoire. La copie du
+	    contenu du fichier se fait alors en une seule opération d'écriture.
 
     [Ex. 4] src/ex4.c
-    	    Programme qui cree N processus qui vont tirer une valeur aleatoire
-	    et l'ecrire dans un fichier. Le pere va attendre la fin de tout les
-	    processus, lire les valeurs aleatoire, faire la somme de celles ci 
-	    et afficher le resultat.
+    	    Programme qui cree N processus qui vont tirer une valeur aléatoire
+	    et l'écrire dans un fichier. Le père va attendre la fin de tout les
+	    processus, lire les valeurs aléatoire, faire la somme de celles-ci 
+	    et afficher le résultat.
 
     [Ex. 5] src/ex5_posix.c
-    	    Programme qui cree trois fils, chacun lisant des caracteres via le
-	    meme descripteur de fichier. Les fonctions utilisées pour manipuler
-	    les fichiers sont celles de posix.
+    	    Programme qui créé trois fils, chacun lisant des caractères via le
+	    même descripteur de fichier. Les fonctions utilisées pour manipuler
+	    les fichiers sont celles de POSIX.
 
     [Ex. 5] src/ex5_libc.c
-    	    Programme qui cree trois fils, chacun lisant des caracteres via le
-	    meme descripteur de fichier. Les fonctions utilisées pour manipuler
+    	    Programme qui créé trois fils, chacun lisant des caractères via le
+	    même descripteur de fichier. Les fonctions utilisées pour manipuler
 	    les fichiers sont celles de la libc.
  
     [Ex. 6] src/extended-grep.c
-    	    Programme qui cherche une chaine de caractere dans les fichiers du
-	    dossier passe en parametre.
+    	    Programme qui cherche une chaine de caractères dans les fichiers du
+	    dossier passé en paramètre.
     	      
     [Ex. 7] src/extended-grep.c
     	    Programme qui inverse un fichier en utilisant (entre autres) la
-	    fonction lseek
+	    fonction lseek.
 
     [Ex. 8] src/extended-grep.c
     	    Programme qui inverse un fichier en utilisant pread.
@@ -102,15 +102,15 @@
 	   A D E F B C : 45hi123
 
     [Ex. 5]
-	Avec les fonctions posix on remarque de tout les fils lisent dans
-	le fichier, et peuvent donc recuperer des caracteres. Avec les 
-	fonctions de la libc, on peut voir que tout les caracteres sont 
-	recuperes par un seul des trois fils. Cela semble venir du fait que les
-	fonctions de la libc utilisent des buffers pour les lectures/ecritures
-	dans les fichiers. En effet, lors de la premiere operation de lecture,
+	Avec les fonctions POSIX, on remarque de tout les fils lisent dans
+	le fichier, et peuvent donc récupérer des caractères. Avec les 
+	fonctions de la libc, on peut voir que tout les caractères sont 
+	récupérés par un seul des trois fils. Cela semble venir du fait que les
+	fonctions de la libc utilisent des buffers pour les lectures/écritures
+	dans les fichiers. En effet, lors de la première opération de lecture,
 	le buffer est rempli avec tout le contenu du fichier, donc lorsqu'un
-	autre fils essaye de lire un caractere, il obtient un OEF car le
-	l'offset du descripteur de fichier est a la fin. Cela est confirmé
-	par l'utilisation de la fonction setvbuf avec le parametre _IONBUF.
+	autre fils essaye de lire un caractère, il obtient un EOF car
+	l'offset du descripteur de fichier est à la fin. Cela est confirmé
+	par l'utilisation de la fonction setvbuf avec le paramètre _IONBUF.
 	En effet, si on n'utilise pas de buffer, le comportement du programme
-	est similaire a ex5_posix.
+	est similaire à ex5_posix.
