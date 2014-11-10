@@ -7,44 +7,71 @@
 === Fichiers inclus ===
     
     [Ex. 1] src/ex1.c
-    	    Programme qui créé N processus qui génèrent une valeur aléatoire et
-	    la mettent dans segment de memoire partagee. Le processus principal
-	    attend la fin de ses fils et fait la somme des valeur generees.
+    	    Meme programme que celui de l'enoncé, sauf que le fichier produit
+	    contient toujours 8 caracteres.
     
-    [Ex. 2] src/ex2_aveccpt.c
-    	    Programme qui implante une barriere de N processus avec un compteur.
+    [Ex. 2] src/mycp.c
+    	    Programme qui prends en parametre 2 nom de fichier, et copie le
+	    contenu du premier dans le second.
     
-    [Ex. 2] src/ex2_sanscpt.c
-	    Même programme que précédemment, sauf que la synchronisation entre
-	    les processus se fait sans compteur.
-
-    [Ex. 3] src/chat_client.c
-    	    Client de chat fonctionnant par segments de mémoire partagés.
-
-    [Ex. 3] src/chat_server.c
-    	    Serveur de chat fonctionnant par segments de mémoire partagés.
-
-    [Ex. 3] include/chat.h
-    	    Contient les structures de mémoire partagée utilisées par le chat.
+    [Ex. 3] src/ex3.c
+    	    Meme programme que l'exercice precedent, sauf qu'au lieu de lire le
+	    contenu du premier fichier, on le mappe en memoire. La copie du
+	    contenu du fichier se fait alors en une seule operation d'ecriture.
 
     [Ex. 4] src/ex4.c
-    	    Programme qui implante un diner de N philosophes, sans interblocage.
+    	    Programme qui cree N processus qui vont tirer une valeur aleatoire
+	    et l'ecrire dans un fichier. Le pere va attendre la fin de tout les
+	    processus, lire les valeurs aleatoire, faire la somme de celles ci 
+	    et afficher le resultat.
 
-    	    
+    [Ex. 5] src/ex5_posix.c
+    	    Programme qui cree trois fils, chacun lisant des caracteres via le
+	    meme descripteur de fichier. Les fonctions utilisées pour manipuler
+	    les fichiers sont celles de posix.
+
+    [Ex. 5] src/ex5_libc.c
+    	    Programme qui cree trois fils, chacun lisant des caracteres via le
+	    meme descripteur de fichier. Les fonctions utilisées pour manipuler
+	    les fichiers sont celles de la libc.
+ 
+    [Ex. 6] src/extended-grep.c
+    	    Programme qui cherche une chaine de caractere dans les fichiers du
+	    dossier passe en parametre.
+    	      
+    [Ex. 7] src/extended-grep.c
+    	    Programme qui inverse un fichier en utilisant (entre autres) la
+	    fonction lseek
+
+    [Ex. 8] src/extended-grep.c
+    	    Programme qui inverse un fichier en utilisant pread.
+
 === Directives du Makefile ===
 
     ex1
 	Créé l'exécutable ex1.
 
     ex2
-	Créé l'exécutable ex2_aveccpt et ex2_sanscpt.
+	Créé l'exécutable mycp.
 
     ex3
-	Créé l'exécutable chat_client et chat_server.
+	Créé l'exécutable ex3.
 
     ex4
-	Créé l'exécutable ex4. 
- 
+	Créé l'exécutable ex4.   
+
+    ex5
+	Créé les exécutables ex5_libc et ex5_posix. 
+
+    ex6
+	Créé l'exécutable extended-grep.  
+
+    ex7
+	Créé l'exécutable ex7.
+
+    ex8
+	Créé l'exécutable ex8.   
+
     pack
 	Créé l'archive de soumission.
 
@@ -54,6 +81,10 @@
     Exercice 2 : OK
     Exercice 3 : OK
     Exercice 4 : OK
+    Exercice 5 : OK
+    Exercice 6 : OK
+    Exercice 7 : OK
+    Exercice 8 : OK
 
 === Réponses ===
 
@@ -70,7 +101,16 @@
 	   A D E B C F : 45123hi
 	   A D E F B C : 45hi123
 
-
-!(stat==-1 && errno==ENOENT)
-!(stat==-1) || !(errno==ENOENT)
-stat !=-1 || errno!= ENOENT
+    [Ex. 5]
+	Avec les fonctions posix on remarque de tout les fils lisent dans
+	le fichier, et peuvent donc recuperer des caracteres. Avec les 
+	fonctions de la libc, on peut voir que tout les caracteres sont 
+	recuperes par un seul des trois fils. Cela semble venir du fait que les
+	fonctions de la libc utilisent des buffers pour les lectures/ecritures
+	dans les fichiers. En effet, lors de la premiere operation de lecture,
+	le buffer est rempli avec tout le contenu du fichier, donc lorsqu'un
+	autre fils essaye de lire un caractere, il obtient un OEF car le
+	l'offset du descripteur de fichier est a la fin. Cela est confirmé
+	par l'utilisation de la fonction setvbuf avec le parametre _IONBUF.
+	En effet, si on n'utilise pas de buffer, le comportement du programme
+	est similaire a ex5_posix.

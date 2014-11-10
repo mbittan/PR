@@ -9,11 +9,12 @@
 #include <limits.h>
 #include <sys/stat.h>
 #include <errno.h>
+
 int main(int argc, char ** argv){
   struct stat sfic1,sfic2;
   int fd1,fd2;
   char c;
-  int laferme;
+  int ret;
 
   if(argc!=3){
     fprintf(stderr,"Nombre d'arguments incorrect\n");
@@ -46,14 +47,14 @@ int main(int argc, char ** argv){
     exit(EXIT_FAILURE);
   }
 
-  while((laferme=read(fd1,&c,sizeof(char)))>0){
+  while((ret=read(fd1,&c,sizeof(char)))>0){
     if(write(fd2,&c,sizeof(char))==-1){
       perror("write");
       exit(EXIT_FAILURE);
     }
   }
 
-  if(laferme==-1){
+  if(ret==-1){
     perror("read");
     exit(EXIT_FAILURE);
   }

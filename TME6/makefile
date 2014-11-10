@@ -1,6 +1,6 @@
-NOM = gouicem
-PRENOM = redha
-NUMTME = 5
+NOM = bittan
+PRENOM = maxime
+NUMTME = 6
 CC = gcc
 CFLAGS = -Wall -g
 STUFF = 
@@ -10,7 +10,7 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: directories ex1 ex2 ex3 ex4
+all: directories ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex8
 
 directories: $(OBJ) $(BIN) $(LIB)
 
@@ -30,6 +30,14 @@ ex2: $(BIN)/mycp
 ex3: $(BIN)/ex3
 
 ex4: $(BIN)/ex4
+
+ex5: $(BIN)/ex5_posix $(BIN)/ex5_libc
+
+ex6 : $(BIN)/extended-grep
+
+ex7 : $(BIN)/ex7
+
+ex8 : $(BIN)/ex8
 
 $(BIN)/%: $(OBJ)/%.o
 	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
