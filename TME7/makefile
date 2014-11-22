@@ -10,7 +10,7 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: directories ex1 ex2 ex3 ex4 ex5 ex6 ex7 ex8
+all: directories ex1 ex2 ex3 #ex4
 
 directories: $(OBJ) $(BIN) $(LIB)
 
@@ -25,19 +25,11 @@ $(LIB):
 
 ex1: $(BIN)/ex1
 
-ex2: $(BIN)/mycp	
+ex2: $(BIN)/recvfile $(BIN)/sendfile	
 
-ex3: $(BIN)/ex3
+ex3: $(BIN)/env_client $(BIN)/env_serveur
 
 ex4: $(BIN)/ex4
-
-ex5: $(BIN)/ex5_posix $(BIN)/ex5_libc
-
-ex6 : $(BIN)/extended-grep
-
-ex7 : $(BIN)/ex7
-
-ex8 : $(BIN)/ex8
 
 $(BIN)/%: $(OBJ)/%.o
 	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
