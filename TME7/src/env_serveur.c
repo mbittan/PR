@@ -100,9 +100,9 @@ int main(int argc, char ** argv){
 	res.res=EXISTEPAS;
       }else{
 	res.res=OK;
+	strncpy(res.valeur,buff,TAILLE_MAX-1);
+	res.valeur[TAILLE_MAX-1]='\0';
       }
-      strncpy(res.valeur,buff,TAILLE_MAX-1);
-      res.valeur[TAILLE_MAX-1]='\0';
     }
 
     printf("Envoi du resultat\n");
