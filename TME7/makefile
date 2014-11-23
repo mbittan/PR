@@ -10,7 +10,7 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: directories ex1 ex2 ex3 #ex4
+all: directories ex1 ex2 ex3 ex4
 
 directories: $(OBJ) $(BIN) $(LIB)
 
@@ -29,7 +29,7 @@ ex2: $(BIN)/recvfile $(BIN)/sendfile
 
 ex3: $(BIN)/env_client $(BIN)/env_serveur
 
-ex4: $(BIN)/ex4
+ex4: $(BIN)/ftp_client $(BIN)/ftp_serveur
 
 $(BIN)/%: $(OBJ)/%.o
 	$(CC) $(CFLAGS) -o $@ $^ $(STUFF)
