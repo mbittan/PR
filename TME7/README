@@ -7,44 +7,39 @@
 === Fichiers inclus ===
     
     [Ex. 1] src/ex1.c
-    	    Même programme que celui de l'énoncé, sauf que le fichier produit
-	    contient toujours 8 caractères.
+    	    Programme qui suit le meme principe que l'exercice 2 du TME4, sauf 
+	    que cette fois ci, les valeurs generes aleatoirement par les fils
+	    sont transmises au pere au moyen de datagrammes UDP.
     
-    [Ex. 2] src/mycp.c
-    	    Programme qui prends en paramètres 2 noms de fichiers, et copie le
-	    contenu du premier dans le second.
+    [Ex. 2] src/sendfile.c
+    	    Programme qui transmet un fichier au serveur dont l'adresse et le
+	    port sont passé en parametre.
     
-    [Ex. 3] src/ex3.c
-    	    Même programme que l'exercice précédent, sauf qu'au lieu de lire le
-	    contenu du premier fichier, on le mappe en mémoire. La copie du
-	    contenu du fichier se fait alors en une seule opération d'écriture.
+    [Ex. 2] src/recvfile.c
+    	    Serveur qui copie les fichiers envoyé par les clients (sendfile)
+	    dans son repertoire d'execution. 
 
-    [Ex. 4] src/ex4.c
-    	    Programme qui cree N processus qui vont tirer une valeur aléatoire
-	    et l'écrire dans un fichier. Le père va attendre la fin de tout les
-	    processus, lire les valeurs aléatoire, faire la somme de celles-ci 
-	    et afficher le résultat.
+    [Ex. 3] include/requete.h
+    	    Fichier qui definit des constantes et les structures qui servent
+	    aux programmes env_client.c et env_serveur.c.
 
-    [Ex. 5] src/ex5_posix.c
-    	    Programme qui créé trois fils, chacun lisant des caractères via le
-	    même descripteur de fichier. Les fonctions utilisées pour manipuler
-	    les fichiers sont celles de POSIX.
+    [Ex. 3] src/env_client.c
+    	    Client qui effectue des demande de getenv ou setenv a un serveur.
 
-    [Ex. 5] src/ex5_libc.c
-    	    Programme qui créé trois fils, chacun lisant des caractères via le
-	    même descripteur de fichier. Les fonctions utilisées pour manipuler
-	    les fichiers sont celles de la libc.
+    [Ex. 3] src/env_serveur.c
+    	    Serveur d'environnement qui gere des getenv et setenv.
  
-    [Ex. 6] src/extended-grep.c
-    	    Programme qui cherche une chaine de caractères dans les fichiers du
-	    dossier passé en paramètre.
+    [Ex. 4] src/ftp_client.c
+    	    Programme capable d'envoyer des "requetes ftp" a un serveur
+	    (ftp_serveur.c).
     	      
-    [Ex. 7] src/extended-grep.c
-    	    Programme qui inverse un fichier en utilisant (entre autres) la
-	    fonction lseek.
+    [Ex. 4] src/ftp_serveur.c
+    	    Programme qui gere des requetes ftp prevenant d'un seul client a la 
+	    fois.
 
-    [Ex. 8] src/extended-grep.c
-    	    Programme qui inverse un fichier en utilisant pread.
+    [Ex. 4] include/ftp_requete.h
+	    Fichier qui definit des constantes pour les deux programmes ci
+	    dessus
 
 === Directives du Makefile ===
 
@@ -52,25 +47,13 @@
 	Créé l'exécutable ex1.
 
     ex2
-	Créé l'exécutable mycp.
+	Créé les exécutables sendfile et recvfile.
 
     ex3
-	Créé l'exécutable ex3.
+	Créé les exécutables env_client et env_serveur.
 
     ex4
-	Créé l'exécutable ex4.   
-
-    ex5
-	Créé les exécutables ex5_libc et ex5_posix. 
-
-    ex6
-	Créé l'exécutable extended-grep.  
-
-    ex7
-	Créé l'exécutable ex7.
-
-    ex8
-	Créé l'exécutable ex8.   
+	Créé les exécutables ftp_client et ftp_serveur.   
 
     pack
 	Créé l'archive de soumission.
@@ -81,36 +64,7 @@
     Exercice 2 : OK
     Exercice 3 : OK
     Exercice 4 : OK
-    Exercice 5 : OK
-    Exercice 6 : OK
-    Exercice 7 : OK
-    Exercice 8 : OK
-
+ 
 === Réponses ===
 
-    [Ex. 1]
-    	 Contenus possibles :  
-	   A B C D E F : fghie123
-	   A B D C E F : fghie
-	   A B D E C F : 45hie123
-	   A B D E F C : 45hie123
-	   A D B C E F : 453fghi
-	   A D B E C F : 453fghi
-	   A D B E F C : 453fghi
-	   A D E B F C : 45123hi
-	   A D E B C F : 45123hi
-	   A D E F B C : 45hi123
-
-    [Ex. 5]
-	Avec les fonctions POSIX, on remarque de tout les fils lisent dans
-	le fichier, et peuvent donc récupérer des caractères. Avec les 
-	fonctions de la libc, on peut voir que tout les caractères sont 
-	récupérés par un seul des trois fils. Cela semble venir du fait que les
-	fonctions de la libc utilisent des buffers pour les lectures/écritures
-	dans les fichiers. En effet, lors de la première opération de lecture,
-	le buffer est rempli avec tout le contenu du fichier, donc lorsqu'un
-	autre fils essaye de lire un caractère, il obtient un EOF car
-	l'offset du descripteur de fichier est à la fin. Cela est confirmé
-	par l'utilisation de la fonction setvbuf avec le paramètre _IONBUF.
-	En effet, si on n'utilise pas de buffer, le comportement du programme
-	est similaire à ex5_posix.
+    Pas de questions.

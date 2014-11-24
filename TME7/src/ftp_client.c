@@ -135,7 +135,7 @@ int download(char * buff){
 
   taille=ntohl(taille);
   if(taille==-1){
-    printf("Erreur : fichier %s n'existe pas chez le serveur",buff);
+    printf("Erreur : fichier %s n'existe pas chez le serveur\n",buff);
     return -1;
   }
 
@@ -184,6 +184,7 @@ int liste(){
   }
   return 0;
 }
+
 int main(int argc, char ** argv){
   int ret;
   struct addrinfo indice, *aux, *addr;

@@ -92,7 +92,8 @@ int download(int sock_client){
   int ret, taille, fd;
   char c;
   struct stat st;
-  
+  char * base;
+
   //Recuperation du nom du fichier.
   while((ret=recv(sock_client,&c,sizeof(char),0))>0){
     buff[i]=c;
@@ -106,9 +107,10 @@ int download(int sock_client){
     perror("recv");
     return -1;
   }
+  base=basename(buff);
 
   //On recupere la structure stat du fichier, et on envoie la taille du fichier
-  if(stat(buff,&st)==-1){
+  if(stat(base,&st)==-1){
     perror("stat");
     taille=htonl(-1);
     if(send(sock_client,&taille,sizeof(int),0)<0){
@@ -124,7 +126,7 @@ int download(int sock_client){
   }
 
   //Ouverture du fichier
-  if((fd=open(buff,O_RDONLY))==-1){
+  if((fd=open(base,O_RDONLY))==-1){
     perror("open");
   }
 
