@@ -7,38 +7,38 @@
 === Fichiers inclus ===
     
     [Ex. 1] src/ex1.c
-    	    Programme qui suit le meme principe que l'exercice 2 du TME4, sauf 
-	    que cette fois ci, les valeurs generes aleatoirement par les fils
-	    sont transmises au pere au moyen de datagrammes UDP.
+    	    Programme qui suit le même principe que l'exercice 2 du TME4, sauf 
+	    que cette fois ci, les valeurs générées aléatoirement par les fils
+	    sont transmises au père au moyen de datagrammes UDP.
     
     [Ex. 2] src/sendfile.c
     	    Programme qui transmet un fichier au serveur dont l'adresse et le
-	    port sont passé en parametre.
+	    port sont passés en paramètres.
     
     [Ex. 2] src/recvfile.c
-    	    Serveur qui copie les fichiers envoyé par les clients (sendfile)
-	    dans son repertoire d'execution. 
+    	    Serveur qui copie les fichiers envoyés par les clients (sendfile)
+	    dans son répertoire d'exécution. 
 
     [Ex. 3] include/requete.h
-    	    Fichier qui definit des constantes et les structures qui servent
+    	    Fichier qui définit des constantes et les structures qui servent
 	    aux programmes env_client.c et env_serveur.c.
 
     [Ex. 3] src/env_client.c
-    	    Client qui effectue des demande de getenv ou setenv a un serveur.
+    	    Client qui effectue des demandes de getenv ou setenv à un serveur.
 
     [Ex. 3] src/env_serveur.c
-    	    Serveur d'environnement qui gere des getenv et setenv.
+    	    Serveur d'environnement qui gère des getenv et setenv.
  
     [Ex. 4] src/ftp_client.c
-    	    Programme capable d'envoyer des "requetes ftp" a un serveur
+    	    Programme capable d'envoyer des "requêtes FTP" à un serveur
 	    (ftp_serveur.c).
     	      
     [Ex. 4] src/ftp_serveur.c
-    	    Programme qui gere des requetes ftp prevenant d'un seul client a la 
+    	    Programme qui gère des requêtes FTP prévenant d'un seul client à la 
 	    fois.
 
     [Ex. 4] include/ftp_requete.h
-	    Fichier qui definit des constantes pour les deux programmes ci
+	    Fichier qui définit des constantes pour les deux programmes ci-
 	    dessus
 
 === Directives du Makefile ===
