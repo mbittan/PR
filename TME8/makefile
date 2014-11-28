@@ -1,6 +1,6 @@
-NOM = gouicem
-PRENOM = redha
-NUMTME = 7
+NOM = bittan
+PRENOM = maxime
+NUMTME = 8
 CC = gcc
 CFLAGS = -Wall -g
 STUFF = 
@@ -10,7 +10,7 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: directories ex1 #ex2 ex3 ex4
+all: directories ex1 ex2 #ex3 ex4
 
 directories: $(OBJ) $(BIN) $(LIB)
 
@@ -25,13 +25,16 @@ $(LIB):
 
 ex1: $(BIN)/ftp_client $(BIN)/ftp_serveur
 
-ex2: $(BIN)/recvfile $(BIN)/sendfile	
+ex2: $(BIN)/mychat
 
 ex3: $(BIN)/env_client $(BIN)/env_serveur
 
 ex4: $(BIN)/ftp_client $(BIN)/ftp_serveur
 
 $(BIN)/ftp_serveur: $(OBJ)/ftp_serveur.o
+	$(CC) $(CFLAGS) -o $@ $^ -pthread
+
+$(BIN)/mychat: $(OBJ)/mychat.o
 	$(CC) $(CFLAGS) -o $@ $^ -pthread
 
 $(BIN)/%: $(OBJ)/%.o
