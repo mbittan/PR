@@ -24,6 +24,8 @@ struct addrinfo * addr_group, * myaddr;
 int sock;
 req_t requete,msg;
 pthread_mutex_t mutex= PTHREAD_MUTEX_INITIALIZER;
+pthread_t tid;
+struct ip_mreq imr;
 
 void erreur(char * msg){
   perror(msg);
@@ -35,8 +37,11 @@ void handler(int sig){
     erreur("close");
   }
   freeaddrinfo(addr_group);
-  exit(EXIT_SUCCESS);
+  freeaddrinfo(myaddr);
+  pthread_kill(tid,SIGTERM);
+  exit(EXIT_SUCCESS);    
 }
+
 void * print_received_msg(void * args){
   int n=strlen("Entrez votre message : ");
   int i;
@@ -48,7 +53,7 @@ void * print_received_msg(void * args){
     if(strcmp(msg.pseudo,requete.pseudo)!=0){
       pthread_mutex_lock(&mutex);
       for(i=0;i<n;i++){
-	printf("\b");
+      	printf("\b");
       }
       i=printf(BLUE"%s"NORMAL" : %s",msg.pseudo, msg.msg);
       printf("\033[0K");
@@ -57,6 +62,7 @@ void * print_received_msg(void * args){
       pthread_mutex_unlock(&mutex);
     }
   }
+  return NULL;
 }
 
 int main(int argc, char ** argv){ 
@@ -64,8 +70,6 @@ int main(int argc, char ** argv){
   struct addrinfo indice, *aux;
   struct sigaction sigact;
   char buff[MESSAGE_SIZE];
-  struct ip_mreq imr;
-  pthread_t tid;
 
   //Verification des arguments
   if(argc!=4){
@@ -162,7 +166,6 @@ int main(int argc, char ** argv){
     printf("\033[F");
     buff[strlen(buff)-1]='\0';
     strcpy(requete.msg,buff);
-    printf("\b\b\b\b");
     printf(RED"%s"NORMAL" : %s",requete.pseudo,requete.msg);
     printf("\033[0K");
     pthread_mutex_unlock(&mutex);
