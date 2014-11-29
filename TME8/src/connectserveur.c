@@ -142,10 +142,10 @@ int main(int argc, char **argv){
 	}
 	
 	fprintf(f,"%s:%s\n",
-		inet_ntop(AF_INET,(void *)&addr_client,ipstr,INET_ADDRSTRLEN),
+		inet_ntop(AF_INET,(void *)&(addr_client.sin_addr),ipstr,INET_ADDRSTRLEN),
 		argv[i+1]);
 	printf("Connectserveur : Connexion recue de %s sur le port %s\n",
-	       inet_ntop(AF_INET,(void *)&addr_client,ipstr,INET_ADDRSTRLEN),
+	       inet_ntop(AF_INET,(void *)&(addr_client.sin_addr),ipstr,INET_ADDRSTRLEN),
 	       argv[i+1]);
       }
     }

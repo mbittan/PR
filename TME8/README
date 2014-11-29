@@ -6,54 +6,54 @@
 
 === Fichiers inclus ===
     
-    [Ex. 1] src/ex1.c
-    	    Programme qui suit le même principe que l'exercice 2 du TME4, sauf 
-	    que cette fois ci, les valeurs générées aléatoirement par les fils
-	    sont transmises au père au moyen de datagrammes UDP.
+    [Ex. 1] src/ftp_client.c
+    	    Client ftp identique a celui de l'exercice 4 du TME 7.
     
-    [Ex. 2] src/sendfile.c
-    	    Programme qui transmet un fichier au serveur dont l'adresse et le
-	    port sont passés en paramètres.
+    [Ex. 1] src/ftp_serveur.c
+	    Serveur ftp multithreadé, qui gere les requetes de la meme maniere
+	    que le serveur de l'exercice 4 du TME 7.
     
-    [Ex. 2] src/recvfile.c
-    	    Serveur qui copie les fichiers envoyés par les clients (sendfile)
-	    dans son répertoire d'exécution. 
-
-    [Ex. 3] include/requete.h
-    	    Fichier qui définit des constantes et les structures qui servent
-	    aux programmes env_client.c et env_serveur.c.
-
-    [Ex. 3] src/env_client.c
-    	    Client qui effectue des demandes de getenv ou setenv à un serveur.
-
-    [Ex. 3] src/env_serveur.c
-    	    Serveur d'environnement qui gère des getenv et setenv.
- 
-    [Ex. 4] src/ftp_client.c
-    	    Programme capable d'envoyer des "requêtes FTP" à un serveur
-	    (ftp_serveur.c).
-    	      
-    [Ex. 4] src/ftp_serveur.c
-    	    Programme qui gère des requêtes FTP prévenant d'un seul client à la 
-	    fois.
-
-    [Ex. 4] include/ftp_requete.h
+    [Ex. 1] include/ftp_requete.h
 	    Fichier qui définit des constantes pour les deux programmes ci-
 	    dessus
+
+    [Ex. 2] src/mychat.c
+    	    Mini-serveur de messagerie instantannee par multicast (super bien
+	    fait, si vous voulez mon opinion !).
+
+    [Ex. 2] include/mychat.h
+    	    Header definissant des constantes utile au programme mychat
+
+    [Ex. 3] src/sonar.c
+    	    Programme qui envoi un message "PING" a tout les noeuds du reseau
+	    local (en mode broadcast donc).
+
+    [Ex. 3] src/ponger.c
+    	    Programme qui se met en attente de messages PING. Des que celui ci
+	    en recoit un, il envoi un message PONG.
+ 
+    [Ex. 4] src/connectclient
+    	    Programme client qui se connecte à serveur dont l'adresse et le
+	    port son passe par la ligne de commande. 
+    	      
+    [Ex. 4] src/connectserveur
+    	    Programme qui se met en attente de connexions sur plusieurs ports.
+	    Des qu'une connexion lui parvient, il l'ecrit dans un fichier nomme
+	    cxlog.
 
 === Directives du Makefile ===
 
     ex1
-	Créé l'exécutable ex1.
+	Créé les executables ftp_client et ftp_serveur.
 
     ex2
-	Créé les exécutables sendfile et recvfile.
+	Créé l'executable mychat.
 
     ex3
-	Créé les exécutables env_client et env_serveur.
+	Créé les exécutables sonar et ponger.
 
     ex4
-	Créé les exécutables ftp_client et ftp_serveur.   
+	Créé les exécutables connectclient et connectserveur.   
 
     pack
 	Créé l'archive de soumission.

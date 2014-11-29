@@ -33,7 +33,7 @@ void * reponse_thread(void * args){
 
     //On affiche l'identite de la personne qui a envoye le PONG
     printf("Sonar : PONG recu de la part de %s\n",
-	   inet_ntop(AF_INET,(void *)&ad,ipstr,INET_ADDRSTRLEN));
+	   inet_ntop(AF_INET,(void *)&(ad.sin_addr),ipstr,INET_ADDRSTRLEN));
   }
   return NULL;
 }
