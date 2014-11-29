@@ -55,6 +55,7 @@ int main(int argc, char ** argv){
     fprintf(stderr,"Impossible d'ouvrir une socket\n");
     exit(EXIT_FAILURE);
   }
+
   memset(&addr,'\0',sizeof(addr));
   while(1){
     if(recvfrom(sock,buff,4*sizeof(char),0,(struct sockaddr *)&addr,&len)<0){

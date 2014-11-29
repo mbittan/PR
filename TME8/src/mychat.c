@@ -23,6 +23,8 @@
 struct addrinfo * addr_group, * myaddr;
 int sock;
 req_t requete,msg;
+//Mutex pour l'affichage, afin que le thread principal et le thread charge
+//d'afficher les messages recus n'ecrivent pas en meme temps sur stdout
 pthread_mutex_t mutex= PTHREAD_MUTEX_INITIALIZER;
 pthread_t tid;
 struct ip_mreq imr;
@@ -38,6 +40,8 @@ void handler(int sig){
   }
   freeaddrinfo(addr_group);
   freeaddrinfo(myaddr);
+
+  ///On envoi un signal au thread pour qu'il se termine
   pthread_kill(tid,SIGTERM);
   exit(EXIT_SUCCESS);    
 }
@@ -46,18 +50,30 @@ void * print_received_msg(void * args){
   int n=strlen("Entrez votre message : ");
   int i;
   while(1){
+    //Reception d'un message
     if(recvfrom(sock,&msg,sizeof(req_t),0,NULL,NULL)==-1){
       perror("recvfrom");
       continue;
     }
+
+    //Si le message recu provient d'une autre personne, on l'affiche
     if(strcmp(msg.pseudo,requete.pseudo)!=0){
       pthread_mutex_lock(&mutex);
+      //On deplace le curseur du terminal au debut de la ligne
       for(i=0;i<n;i++){
       	printf("\b");
       }
-      i=printf(BLUE"%s"NORMAL" : %s",msg.pseudo, msg.msg);
+
+      //On affiche le message
+      printf(BLUE"%s"NORMAL" : %s",msg.pseudo, msg.msg);
+
+      //On efface les caracteres restants s'il y en a
       printf("\033[0K");
+
+      //On reaffiche la demande de message
       printf("\nEntrez votre message : ");
+
+      //On force l'affichage.
       fflush(stdout);
       pthread_mutex_unlock(&mutex);
     }
@@ -160,15 +176,31 @@ int main(int argc, char ** argv){
     pthread_mutex_lock(&mutex);
     printf("\nEntrez votre message : ");
     pthread_mutex_unlock(&mutex);
+
+    //Attente d'un message de la part de l'utilisateur
     fgets(buff,MESSAGE_SIZE*sizeof(char),stdin);
 
     pthread_mutex_lock(&mutex);
+    
+    //Retour a la ligne precedente
     printf("\033[F");
+    
+    //On enleve le saut de ligne du message
     buff[strlen(buff)-1]='\0';
+
+    //On copie le message dans la structure que l'on va envoyer aux autres
+    //membre du groupe de multicast
     strcpy(requete.msg,buff);
+
+    //On affiche notre message
     printf(RED"%s"NORMAL" : %s",requete.pseudo,requete.msg);
+
+    //On efface les autres caracteres
     printf("\033[0K");
+
     pthread_mutex_unlock(&mutex);
+
+    //On envoie le message
     if(sendto(sock,&requete,sizeof(req_t),0,addr_group->ai_addr,addr_group->ai_addrlen)==-1){
       perror("send");
       continue;  
