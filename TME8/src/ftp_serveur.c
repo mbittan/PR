@@ -24,6 +24,8 @@ int sock;
 struct addrinfo * addr;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+pthread_cond_t cond_write = PTHREAD_COND_INITIALIZER;
+char filenames[MAXTHREADS][1024];
 int nbthreads=0;
 int isrun[MAXTHREADS];
 
@@ -40,10 +42,35 @@ void handler(int sig){
   exit(EXIT_SUCCESS);
 }
 
+int attendre_si_ecriture(char* buff, int taille) {
+  int j, k = -1;
+
+  // Verification si fichier deja en ecriture
+  pthread_mutex_lock(&mutex);
+  do {
+    for(j=0; j<MAXTHREADS; j++) {
+      if(filenames[j][0] != '\0') {
+	if(strncmp(buff, filenames[j], taille) == 0) {
+	  printf("Fichier utilise, veuillez patienter...\n");
+	  pthread_cond_wait(&cond_write, &mutex);	
+	  break;
+	}
+      }
+      else
+	k = j;
+    }
+  } while(j<MAXTHREADS);
+  // si non, ecrire le nom du fichier que l'on va ecrire dans une case vide
+  strncpy(filenames[k], buff, taille);
+  pthread_mutex_unlock(&mutex);
+
+  return k;
+}
+
 int upload(int sock_client){
   char buff[1024];
   char * base;
-  int i=0;
+  int i=0, k;
   int ret, taille, fd;
   char c;
 
@@ -60,9 +87,14 @@ int upload(int sock_client){
     perror("recv");
     return -1;
   }
+  
+  // on verifie si quelqu un ecrit deja ce fichier
+  if((k = attendre_si_ecriture(buff, i)) == -1)
+    erreur("attendre_si_ecriture");
 
   //Ouverture du fichier
   base=basename(buff);
+  printf("Writing %s...\n", base);
   if((fd=open(base,O_WRONLY | O_CREAT | O_TRUNC, 0666))==-1){
     perror("open");
     return -1;
@@ -89,6 +121,12 @@ int upload(int sock_client){
     perror("close");
   }
 
+  // on libere la case ou on a ecrit le nom de fichier en ecriture
+  pthread_mutex_lock(&mutex);
+  filenames[k][0] = '\0';
+  pthread_cond_signal(&cond_write);
+  pthread_mutex_unlock(&mutex);
+
   return 0;
 }
 
@@ -113,8 +151,13 @@ int download(int sock_client){
     perror("recv");
     return -1;
   }
-  base=basename(buff);
 
+  // on verifie si quelqu un ecrit deja ce fichier
+  if(attendre_si_ecriture(buff, i) == -1)
+    erreur("attendre_si_ecriture");
+
+  base=basename(buff);
+  printf("Reading %s...\n", base);
   //On recupere la structure stat du fichier, et on envoie la taille du fichier
   if(stat(base,&st)==-1){
     perror("stat");
