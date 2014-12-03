@@ -8,9 +8,6 @@
 #include <string.h>
 #include <errno.h>
 
-void interrupt_signal(int signo,siginfo_t *si,void *context){
-  printf("Mtoto\n");
-}
 
 int main(int argc, char ** argv){
   if(argc!=3){
@@ -21,12 +18,7 @@ int main(int argc, char ** argv){
   int ret,fd,fd2,sig;
   struct aiocb a;
   struct sigevent sigev;
-  struct sigaction action;
   sigset_t set;
-
-  action.sa_sigaction=interrupt_signal;
-  action.sa_flags=SA_SIGINFO;
-  sigaction(SIGRTMIN,&action,NULL);
 
   sigemptyset(&set);
   sigaddset(&set,SIGRTMIN);
@@ -58,7 +50,7 @@ int main(int argc, char ** argv){
     exit(EXIT_FAILURE);
   }
 
-  sigwait(&set,&sig);  
+  sigwait(&set,&sig);
   
   if((ret=aio_error(&a))>0){
     errno=ret;
@@ -83,5 +75,11 @@ int main(int argc, char ** argv){
 
   printf("Contenu du fichier : %s\n", buff);
   free(buff);
+  
+  if(close(fd) < 0 || close(fd2) < 0) {
+    perror("close");
+    exit(EXIT_FAILURE);
+  }
+
   return EXIT_SUCCESS;
 }
