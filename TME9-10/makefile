@@ -48,7 +48,7 @@ clean:
 	rm -rf $(SRC)/*# $(INC)/*# $(SRC)/.#* $(INC)/.#*
 
 pack: clean
-	cd .. && tar czfv $(NOM)-$(PRENOM).mi014.$(NUMTME).tgz TME$(NUMTME)
+	cd .. && tar czfv $(NOM)-$(PRENOM).mi014.$(NUMTME).tgz TME$(NUMTME)-10
 
 .PHONY: all clean pack ex1 ex2 ex3 ex4
 
