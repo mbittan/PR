@@ -10,7 +10,7 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: directories ex1 #ex2 ex3 ex4 ex5 ex6 ex7 ex8
+all: directories ex1 ex2 ex3 ex4 #ex5 ex6 ex7 
 
 directories: $(OBJ) $(BIN) $(LIB)
 
@@ -23,7 +23,7 @@ $(BIN):
 $(LIB):
 	mkdir -p $(LIB)
 
-ex1: $(BIN)/ex1
+ex1: $(BIN)/ex1a $(BIN)/ex1b
 
 ex2: $(BIN)/ex2	
 

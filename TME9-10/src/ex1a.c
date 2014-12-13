@@ -7,7 +7,6 @@
 #include <fcntl.h>
 #include <string.h>
 #include <errno.h>
-#include <time.h>
 
 
 int main(int argc, char ** argv){
@@ -16,11 +15,10 @@ int main(int argc, char ** argv){
     fprintf(stderr,"Usage : %s <nomfic> \"<chaine>\"\n",argv[0]);
     exit(EXIT_FAILURE);
   }
-  int ret,fd,fd2, clk_r;
+  int ret,fd,fd2,sig;
   struct aiocb a;
   struct sigevent sigev;
   sigset_t set;
-  struct timespec request, remain;
 
   sigemptyset(&set);
   sigaddset(&set,SIGRTMIN);
@@ -39,7 +37,8 @@ int main(int argc, char ** argv){
   a.aio_nbytes=strlen(argv[2]);
   a.aio_reqprio=0;
 
-  sigev.sigev_notify=SIGEV_NONE;
+  sigev.sigev_notify=SIGEV_SIGNAL;
+  sigev.sigev_signo=SIGRTMIN;
 
   a.aio_sigevent=sigev;
   if(aio_write(&a)==-1){
@@ -52,27 +51,9 @@ int main(int argc, char ** argv){
     exit(EXIT_FAILURE);
   }
 
-  request.tv_sec = 0;
-  request.tv_nsec = 50;
+  sigwait(&set,&sig);
   
-  while ((ret=aio_error(&a)) == EINPROGRESS) {
-    while ((clk_r=clock_nanosleep(CLOCK_REALTIME, 0, &request, &remain)) != 0) {
-      if(clk_r != EINTR) {
-	perror("clock_nanosleep");
-	exit(EXIT_FAILURE);
-      }
-      if(clk_r == EINTR) {
-	request.tv_sec  = remain.tv_sec;
-	request.tv_nsec = remain.tv_nsec;
-      }
-      else {
-	request.tv_sec = 0;
-	request.tv_nsec = 50;
-      }
-    }
-  }
-  
-  if(ret > 0){
+  if((ret=aio_error(&a))>0){
     errno=ret;
     perror("aio_error");
     exit(EXIT_FAILURE);
