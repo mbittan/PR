@@ -1,0 +1,88 @@
+=== Participants : 3 ===
+    
+    Maxime Bittan - 3100294
+    Redha Gouicem - 3100161
+    Igor Macanovic- 3261753
+
+=== Fichiers inclus ===
+    
+    [Ex. 1a] src/ex1a.c
+    	     Programme qui prend en argument le nom d'un fichier et une chaine
+	     de caractere et qui ecrit la chaine dans le fichier, de maniere
+	     asynchrone, puis la lit de maniere synchrone.
+    
+    [Ex. 1b] src/ex1b.c
+    	     Meme programme que le precedent, sauf que la fin de l'ecriture est
+	     attendue au moyen d'un appel a aio_suspend.
+    
+    [Ex. 2] src/ex2.c
+    	    Meme programme que le precedent sauf que cette fois ci, on verifie
+	    toutes les 50ns si l'entrée sortie est terminée.
+
+    [Ex. 3] src/ex3.c
+    	    Même programme que l'exercice 4 du TME 6, sauf que cette fois, les
+	    entrees sorties se font de maniere asynchrone.
+
+    [Ex. 4] src/ex4.c
+    	    Programme qui lit un fichier par suite de 10 caracteres et qui
+	    ecrit ceux ci dans un autre fichier, en inversant leur ordre.
+
+    [Ex. 5] src/ex5.c
+    	    Programme qui crée une chaine de N processus. Chaque processus
+	    affiche son identité dans l'ordre inverse des créations.
+    	      
+    [Ex. 6] src/ex6.c
+    	    Meme programme que l'exercice 2 du TME 4 sauf que les valeurs
+	    transmises par les fils passent par des signaux temps reels.
+
+    [Ex. 7] src/ex7.c
+    	    Programme qui implante une barriere de N processus grace a des
+	    signaux temps reels.
+
+=== Directives du Makefile ===
+
+    ex1
+	Créé l'exécutable ex1a et ex1b.
+
+    ex2
+	Créé l'exécutable ex2.
+
+    ex3
+	Créé l'exécutable ex3.
+
+    ex4
+	Créé l'exécutable ex4.   
+
+    ex5
+	Créé les exécutables ex5. 
+
+    ex6
+	Créé l'exécutable ex6.  
+
+    ex7
+	Créé l'exécutable ex7.
+
+    pack
+	Créé l'archive de soumission.
+
+=== Etat d'avancement ===
+
+    Exercice 1 : OK
+    Exercice 2 : OK
+    Exercice 3 : OK
+    Exercice 4 : OK
+    Exercice 5 : OK
+    Exercice 6 : OK
+    Exercice 7 : OK
+
+=== Réponses ===
+
+    [Ex. 3]
+    	 Il est necessaire de synchroniser le pere et le fils, sinon on pourrait
+	 lire avant que l'entrée sortie du fils ne soit terminée.
+	 Cependant il n'est pas necessaire de synchroniser les fils entre eux
+	 car chaque fils ecrit dans un endroit different du fichier.
+
+    [Ex. 7]
+    	 Selon nous, il n'est pas possible de realiser une telle synchronisation
+	 sans coordinateur.
