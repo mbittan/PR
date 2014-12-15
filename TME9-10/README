@@ -85,4 +85,9 @@
 
     [Ex. 7]
     	 Selon nous, il n'est pas possible de réaliser une telle synchronisation
-	 sans coordinateur.
+	 sans coordinateur en n'utilisant que des signaux temps réél. A l'aide d'un
+     mutex protégeant une variable pid_t pid dans wait_barrier(), il est 
+     possible que chaque processus entrant dans la barrière laisse son pid au
+     processus qui entrera après lui. Ce dernier fera de même, jusqu'au dernier
+     qui, lui ne s'endormira pas mais réveillera son prédecesseur, qui fera de
+     même et ainsi de suite.
