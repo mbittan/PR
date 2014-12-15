@@ -8,7 +8,7 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
-
+#include <signal.h>
 
 int main(int argc, char ** argv){
   if(argc!=3){
