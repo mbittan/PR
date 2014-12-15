@@ -8,36 +8,36 @@
     
     [Ex. 1a] src/ex1a.c
     	     Programme qui prend en argument le nom d'un fichier et une chaine
-	     de caractere et qui ecrit la chaine dans le fichier, de maniere
-	     asynchrone, puis la lit de maniere synchrone.
+	     de caractères et qui écrit la chaine dans le fichier, de manière
+	     asynchrone, puis la lit de manière synchrone.
     
     [Ex. 1b] src/ex1b.c
-    	     Meme programme que le precedent, sauf que la fin de l'ecriture est
-	     attendue au moyen d'un appel a aio_suspend.
+    	     Même programme que le précédent, sauf que la fin de l'écriture est
+	     attendue au moyen d'un appel à aio_suspend().
     
     [Ex. 2] src/ex2.c
-    	    Meme programme que le precedent sauf que cette fois ci, on verifie
+    	    Même programme que le précédent sauf que cette fois-ci, on vérifie
 	    toutes les 50ns si l'entrée sortie est terminée.
 
     [Ex. 3] src/ex3.c
     	    Même programme que l'exercice 4 du TME 6, sauf que cette fois, les
-	    entrees sorties se font de maniere asynchrone.
+	    entrées sorties se font de manière asynchrone.
 
     [Ex. 4] src/ex4.c
     	    Programme qui lit un fichier par suite de 10 caracteres et qui
-	    ecrit ceux ci dans un autre fichier, en inversant leur ordre.
+	    écrit ceux-ci dans un autre fichier, en inversant leur ordre.
 
     [Ex. 5] src/ex5.c
-    	    Programme qui crée une chaine de N processus. Chaque processus
+    	    Programme qui créé une chaine de N processus. Chaque processus
 	    affiche son identité dans l'ordre inverse des créations.
     	      
     [Ex. 6] src/ex6.c
-    	    Meme programme que l'exercice 2 du TME 4 sauf que les valeurs
-	    transmises par les fils passent par des signaux temps reels.
+    	    Même programme que l'exercice 2 du TME 4 sauf que les valeurs
+	    transmises par les fils passent par des signaux temps rééls.
 
     [Ex. 7] src/ex7.c
-    	    Programme qui implante une barriere de N processus grace a des
-	    signaux temps reels.
+    	    Programme qui implante une barrière de N processus grace à des
+	    signaux temps rééls.
 
 === Directives du Makefile ===
 
@@ -78,11 +78,11 @@
 === Réponses ===
 
     [Ex. 3]
-    	 Il est necessaire de synchroniser le pere et le fils, sinon on pourrait
+    	 Il est nécessaire de synchroniser le père et le fils, sinon on pourrait
 	 lire avant que l'entrée sortie du fils ne soit terminée.
-	 Cependant il n'est pas necessaire de synchroniser les fils entre eux
-	 car chaque fils ecrit dans un endroit different du fichier.
+	 Cependant il n'est pas nécessaire de synchroniser les fils entre eux
+	 car chaque fils écrit dans un endroit différent du fichier.
 
     [Ex. 7]
-    	 Selon nous, il n'est pas possible de realiser une telle synchronisation
+    	 Selon nous, il n'est pas possible de réaliser une telle synchronisation
 	 sans coordinateur.
